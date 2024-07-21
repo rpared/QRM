@@ -1,0 +1,25 @@
+[
+      {
+        "user_id": 1,
+        "email": "user1@example.com",
+        "password": "1234",  
+        "firstname": "Roger",
+        "lastname": "Paredes"
+      },
+      {
+        "user_id": 2,
+        "email": "user2@example.com",
+        "password": "hashed_password2",
+        "firstname": "Ryan",
+        "lastname": "Ancheta"
+      },    
+      {
+      "user_id": 3,  
+      "email": "user3@example.com",
+      "password": "hashed_password3",
+      "firstname": "Jercy",
+      "lastname": "Tse Zie Tong"
+      }
+]
+  
+  

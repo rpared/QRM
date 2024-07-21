@@ -1,0 +1,18 @@
+.hero-section {
+    height: 100vh;
+    background: url('path/to/hero-image.jpg') no-repeat center center;
+    background-size: cover;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.pricing-plan {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    background-color: #f8f9fa;
+}

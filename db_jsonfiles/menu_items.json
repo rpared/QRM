@@ -1,0 +1,92 @@
+[
+  {
+      "resta_profile_id": 1,
+      "item_id": 1,
+      "item_category": "main",
+      "item_name": "Classic Vegan Cheese Pizza",
+      "item_photo": "path/to/image1.jpg",
+      "item_description": "Made with our signature vegan cheese and fresh toppings.",
+      "item_labels": ["vegan", "gluten-free"],
+      "item_price": 15.99
+  },
+  {
+      "resta_profile_id": 1,
+      "item_id": 2,
+      "item_category": "main",
+      "item_name": "BBQ Jackfruit Pizza",
+      "item_photo": "path/to/image2.jpg",
+      "item_description": "Tangy BBQ sauce, jackfruit, and vegan mozzarella.",
+      "item_labels": ["vegan", "spicy"],
+      "item_price": 17.99
+  },
+  {
+      "resta_profile_id": 1,
+      "item_id": 7,
+      "item_category": "entree",
+      "item_name": "Vegan Mac and Cheese",
+      "item_photo": "path/to/image7.jpg",
+      "item_description": "A creamy and delicious vegan mac and cheese dish.",
+      "item_labels": ["vegan", "gluten-free"],
+      "item_price": 13.99
+  },
+  {
+      "resta_profile_id": 2,
+      "item_id": 3,
+      "item_category": "main",
+      "item_name": "The Original Plant Burger",
+      "item_photo": "path/to/image3.jpg",
+      "item_description": "Our classic vegan burger with all the fixings.",
+      "item_labels": ["vegan"],
+      "item_price": 12.99
+  },
+  {
+      "resta_profile_id": 2,
+      "item_id": 4,
+      "item_category": "main",
+      "item_name": "Spicy Black Bean Burger",
+      "item_photo": "path/to/image4.jpg",
+      "item_description": "A delicious black bean patty with a spicy kick.",
+      "item_labels": ["vegan", "spicy"],
+      "item_price": 14.50
+  },
+  {
+      "resta_profile_id": 2,
+      "item_id": 8,
+      "item_category": "entree",
+      "item_name": "Crispy Chickpea Fries",
+      "item_photo": "path/to/image8.jpg",
+      "item_description": "Crispy and flavorful chickpea fries, perfect for dipping.",
+      "item_labels": ["vegan", "gluten-free"],
+      "item_price": 8.99
+  },
+  {
+      "resta_profile_id": 3,
+      "item_id": 5,
+      "item_category": "entree",
+      "item_name": "Rainbow Veggie Wrap",
+      "item_photo": "path/to/image5.jpg",
+      "item_description": "A colorful wrap filled with fresh vegetables and a vegan dressing.",
+      "item_labels": ["vegan"],
+      "item_price": 10.99
+  },
+  {
+      "resta_profile_id": 3,
+      "item_id": 6,
+      "item_category": "main",
+      "item_name": "Creamy Tomato Pasta",
+      "item_photo": "path/to/image6.jpg",
+      "item_description": "A light and flavorful pasta dish with a creamy tomato sauce.",
+      "item_labels": ["vegan"],
+      "item_price": 14.99
+  },
+  {
+      "resta_profile_id": 3,
+      "item_id": 9,
+      "item_category": "entree",
+      "item_name": "Lentil Soup",
+      "item_photo": "path/to/image9.jpg",
+      "item_description": "A hearty and healthy lentil soup, perfect for a light meal.",
+      "item_labels": ["vegan", "gluten-free"],
+      "item_price": 9.99
+  }
+]
