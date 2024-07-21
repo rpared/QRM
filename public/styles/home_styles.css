@@ -43,3 +43,20 @@
 .lead{
     margin-top: 200px;
 }
+.w-75{
+    margin-top: 20px!important;
+}
+
+footer{
+    color: #ee5d3d;
+    margin: 30px auto;
+    width: 55%;
+    border-top: 0.4px solid #dbdbdb;
+}
+
+@media (min-width: 768px) {  /* For screens wider than 768px (laptops/desktops) */
+    .w-75  {  /* Add a class to your form (optional) */
+      width: 40% !important;
+      margin: 0 auto;
+    }
+  }

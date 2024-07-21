@@ -19,7 +19,7 @@ app.engine(
   })
 );
 
-// middleware (should be in the middleware folder, but since they are so short I'll keep em here):
+// middleware (just these 2 since they are small):
 app.use(express.urlencoded({ extended: true })); // handle normal forms -> url encoded
 app.use(express.json()); // Handle raw json data
 
@@ -27,12 +27,40 @@ app.use(express.json()); // Handle raw json data
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads"))); //This is needed to allow the client to access the images using URLs!
 
-//ROUTES
-
+// ROUTES
+// Home
 app.get("/", (req, res) => {
   res.render("home", {
     title: "Home Page",
     message: "Welcome, select an option from the navigation menu.",
+  });
+});
+// Login
+app.get("/login", (req, res) => {
+  res.render("login", {
+    title: "Login",
+    message: "Enter your credentials.",
+  });
+});
+// Register
+app.get("/register", (req, res) => {
+  res.render("register", {
+    title: "Register",
+    message: "Enter your info.",
+  });
+});
+// About
+app.get("/about", (req, res) => {
+  res.render("about", {
+    title: "About",
+    message: "Developers",
+  });
+});
+// Pricing
+app.get("/pricing", (req, res) => {
+  res.render("pricing", {
+    title: "Pricing",
+    message: "Our plans",
   });
 });
 
