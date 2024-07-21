@@ -1,12 +1,35 @@
+.logo {
+    -webkit-filter: drop-shadow(2px 2px 5px #222);
+    filter: drop-shadow(2px 2px 5px #222);
+    margin-left: 10px;
+}
+ .shadow{
+    box-shadow: 0 2px 4px #222;
+ }
+
+ .nav-item{
+    padding: 5px;
+    color: #fff;
+ }
+
+
+.btn-primary{
+    background-color: rgb(86, 126, 169);
+    color: #fff !important;
+    border: none;
+}
+
 .hero-section {
-    height: 100vh;
-    background: url('path/to/hero-image.jpg') no-repeat center center;
+    /* width: 100%; */
+    min-height: 400px;
+    background: url('../images/heroimage.png') no-repeat center center;
     background-size: cover;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding-bottom: 20px;
 }
 .pricing-plan {
     border: 1px solid #ddd;
@@ -15,4 +38,8 @@
     margin: 10px;
     text-align: center;
     background-color: #f8f9fa;
+}
+
+.lead{
+    margin-top: 200px;
 }
