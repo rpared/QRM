@@ -1,0 +1,48 @@
+ <div class="sidebar">
+    {{!-- <span id="userWelcome-dashboard" class="user-welcome"></span> --}}
+    <a href="/create_restaurant_profile">Create Restaurant</a>
+    <a href="#">Edit Account</a>
+    <a href="#">Delete Account</a>
+    <a href="#">Logout</a>
+  </div>
+
+ <main class="main-content">
+    <h1>User Dashboard</h1>
+    <button class="btn btn-primary" onclick="window.location.href='/create_restaurant_profile'">Create Restaurant Profile</button>
+    {{#if restaurants.length}}
+      {{#each restaurants}}
+        <div class="container">
+          <h2>{{this.resta_name}}</h2>
+          <img src="{{this.resta_logo}}" alt="{{this.resta_name}} Logo" style="max-width: 200px;">
+          <p><strong>Description:</strong> {{this.resta_description}}</p>
+          <p><strong>Location:</strong> {{this.resta_location}}</p>
+          <p><strong>Hours:</strong> {{this.resta_hours}}</p>
+          <p><strong>Email:</strong> {{this.resta_email}}</p>
+          <p><strong>Phone:</strong> {{this.resta_phone}}</p>
+          <form action="/add_menu_items" method="GET">
+          <button type="submit" class="btn btn-primary">Add Menu Items</button>
+          </form>
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="analytics-placeholder">
+        <div class="analytics-section">
+          <h2>Nothing here yet</h2>
+          <p>You have not created any restaurant profiles yet.</p>
+        </div>
+        <div class="analytics-section">
+          <h3>Analytics</h3>
+          <p>Placeholder for analytics or any other relevant information you want to display.</p>
+        </div>
+      </div>
+    {{/if}}
+
+  </main>
+
+
+  {{!-- <script>
+    
+    const userWelcome = document.getElementById("userWelcome-dashboard");
+    userWelcome.textContent = `Hello, {{user.email}}`;
+
+  </script> --}}

@@ -12,7 +12,7 @@ let menu_itemSchema = mongoose.Schema({
   item_category: {
     type: String,
     required: true,
-    enum: ["breakfast", "main", "entree", "beverage", "dessert"],
+    enum: ["specials", "breakfast", "brunch", "main", "entrees", "beverages", "desserts", "specials", "hot-beverages"],
     default: null,
   },
   item_name: {

@@ -1,0 +1,51 @@
+/* Users sidebar */
+
+.sidebar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 76px;
+    left: 0;
+    background-color: #6e6e6e;
+    padding-top: 20px;
+    border-right: 1px solid #535353;
+    z-index: 1;
+}
+.sidebar a {
+    padding: 14px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #fff;
+    display: block;
+}
+.sidebar a:hover {
+    background-color: #ee5d3d;
+    color: white;
+}
+.main-content {
+    margin-left: 200px; /* Same as the width of the sidebar */
+    margin-top: 70px;
+    padding: 20px;
+}
+.user-welcome {
+    color: #fff;
+    padding: 10px;
+    padding-left: 15px;
+}
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.analytics-placeholder {
+    background: #e9ecef;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 20px; 
+}
+.analytics-section {
+    margin-bottom: 20px;
+}
