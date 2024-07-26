@@ -8,22 +8,25 @@
 
  <main class="main-content">
     <h1>User Dashboard</h1>
-    <button class="btn btn-primary" onclick="window.location.href='/create_restaurant_profile'">Create Restaurant Profile</button>
+    <button class="btn btn-primary" onclick="window.location.href='/create_restaurant_profile'">Create Restaurant Profile</button></br></br>
+    <div class="resta-group-container">
+        <h3>My Restaurants</h3>
     {{#if restaurants.length}}
       {{#each restaurants}}
-        <div class="container">
-          <h2>{{this.resta_name}}</h2>
-          <img src="{{this.resta_logo}}" alt="{{this.resta_name}} Logo" style="max-width: 200px;">
-          <p><strong>Description:</strong> {{this.resta_description}}</p>
-          <p><strong>Location:</strong> {{this.resta_location}}</p>
-          <p><strong>Hours:</strong> {{this.resta_hours}}</p>
-          <p><strong>Email:</strong> {{this.resta_email}}</p>
-          <p><strong>Phone:</strong> {{this.resta_phone}}</p>
-          <form action="/add_menu_items" method="GET">
-          <button type="submit" class="btn btn-primary">Add Menu Items</button>
-          </form>
-        </div>
+          <div class="resta-container">
+            <h2>{{this.resta_name}}</h2>
+            <img src="{{this.resta_logo}}" alt="{{this.resta_name}} Logo" style="max-width: 200px; max-height:100px">
+            <p><strong>Description:</strong> {{this.resta_description}}</p>
+            <p><strong>Location:</strong> {{this.resta_location}}</p>
+            <p><strong>Hours:</strong> {{this.resta_hours}}</p>
+            <p><strong>Email:</strong> {{this.resta_email}}</p>
+            <p><strong>Phone:</strong> {{this.resta_phone}}</p>
+            <form action="/add_menu_items" method="GET">
+            <button type="submit" class="btn btn-primary">Add Menu Items</button>
+            </form>
+          </div>
       {{/each}}
+    </div>
     {{else}}
       <div class="analytics-placeholder">
         <div class="analytics-section">
