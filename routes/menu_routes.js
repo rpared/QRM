@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const MenuItem = require("../models/menuItem");
-const multer = require("multer");
+// const multer = require("multer");
 const path = require("path");
-
+const upload = require("../middleware/multer");
+// router.set('views', path.join(__dirname, 'views'));
+/*
 // Multer configuration for file upload
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -15,6 +17,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+*/
 
 // Add Items Route
 router.get("/add_menu_items", (req, res) => {
@@ -54,5 +57,74 @@ router.post("/add_menu_item", upload.single('item_photo'), async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+
+// Edit Menu Item - GET
+router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) => {
+    const { restaurantId, menuItemId } = req.params;
+    try {
+      const menuItem = await MenuItem.findById(menuItemId);
+      if (!menuItem) {
+        return res.status(404).send("Menu item not found");
+      }
+      res.render("edit_menu_item", {
+        title: "Edit Menu Item",
+        restaurantId: restaurantId,
+        menuItem: menuItem,
+        user: req.session.user,
+            userSession: true,
+      });
+    } catch (error) {
+      console.error("Error fetching menu item:", error);
+      res.status(500).send("Error loading edit menu item page");
+    }
+  });
+
+  // Update Menu Item
+  router.post("/update_menu_item", upload.single('item_photo'), async (req, res) => {
+    const { item_id, item_name, item_category, item_description, item_labels, item_price } = req.body;
+    const item_photo = req.file ? req.file.filename : null;
+    const resta_profile_id = req.session.user.resta_profile_id;
+
+    try {
+        // Find the item by its ID and restaurant profile ID
+        const item = await MenuItem.findOne({ item_id, resta_profile_id });
+
+        if (!item) {
+            return res.status(404).send("Menu item not found");
+        }
+
+        // Update the item's details
+        item.item_name = item_name;
+        item.item_category = item_category;
+        item.item_description = item_description;
+        if (item_photo) {
+            item.item_photo = item_photo;
+        }
+        item.item_labels = Array.isArray(item_labels) ? item_labels : [item_labels];
+        item.item_price = item_price;
+
+        await item.save();
+        res.redirect("/edit_menu_items"); // Redirect to a page where the updated item is shown
+    } catch (error) {
+        console.error("Error updating menu item:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+  
+  // Delete Menu Item
+  router.post("/restaurant/:restaurantId/menu/:menuItemId/delete", (req, res) => {
+    const { restaurantId, menuItemId } = req.params;
+    // Logic to delete the menu item
+    MenuItem.findByIdAndRemove(menuItemId, (err) => {
+      if (err) {
+        return res.status(500).send("Error deleting menu item");
+      }
+      res.redirect(`/restaurant/${restaurantId}`);
+    });
+  });
+  
+
+
 
 module.exports = router;

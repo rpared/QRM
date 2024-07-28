@@ -1,29 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
-    <style>
-        .menu-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
-        .menu-item {
-            border: 1px solid #ccc;
-            padding: 16px;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            text-align: center;
-        }
-        .menu-item img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-    </style>
+    <div class="sidebar">
+        <a href="/user_dashboard">User Dashboard</a>
+        <a href="#">Restaurant Profile</a>
+        <a href="#">Edit Account</a>
+        <a href="#">Delete Account</a>
+        <a href="#">Logout</a>
+    </div>
+    <main class="main-content">
+        <div class="container">
+            <h1>{{restaurant.resta_name}}</h1>
+            <p>{{restaurant.resta_description}}</p>
+             
+            <h2>Menu</h2>
+            <div class="menu-items">
+                {{#each menuItems}}
+                    <div class="menu-item">
+                        <h3>{{this.item_name}} </h3>
+                        <p>{{this.item_description}}</p>
+                        <p>Price: ${{this.item_price}}</p>
+                        {{#if this.item_photo}}
+                        <img src="/uploads/{{this.item_photo}}" alt="{{this.item_name}}">
+                        <p>Category: {{this.item_category}} / Labels: {{this.item_labels}}</p>
+                        {{/if}}
+                        <!-- Edit Button -->
+                        <form action="/restaurant/{{../restaurant._id}}/menu/{{this._id}}/edit" method="GET" class="menu-item-form">
+                        <button type="submit" class="btn btn-secondary">Edit</button>
+                        </form>
+
+                        <!-- Delete Button -->
+                        <form action="/restaurant/{{../restaurant._id}}/menu/{{this._id}}/delete" method="POST" class="menu-item-form">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                {{/each}}
+                <form action="/add_menu_items" method="GET">
+                        <button type="submit" class="btn btn-primary d-block">Add Menu Items</button>
+                </form>
+             </div>
+            <!--
+            <div class="menu-items">
+                
+                Menu items will be dynamically inserted here 
+            </div>-->
+        </div>
+    </main>
+
+  <!-- No longer needed 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const restaurantId = "{{restaurant._id}}"; // Pass restaurant ID to JS
@@ -48,24 +69,5 @@
                 });
         });
     </script>
-</head>
-<body>
-    <div class="sidebar">
-        <a href="/user_dashboard">User Dashboard</a>
-        <a href="#">Restaurant Profile</a>
-        <a href="#">Edit Account</a>
-        <a href="#">Delete Account</a>
-        <a href="#">Logout</a>
-    </div>
-    <main class="main-content">
-        <div class="container">
-            <h1>{{restaurant.resta_name}}</h1>
-            <p>{{restaurant.resta_description}}</p>
-            <h2>Menu</h2>
-            <div class="menu-items">
-                <!-- Menu items will be dynamically inserted here -->
-            </div>
-        </div>
-    </main>
-</body>
-</html>
+
+-->

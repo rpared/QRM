@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const path = require("path");
 const exphbs = require("express-handlebars");
+const handlebarsHelpers = require("./helpers/handlebars-helpers");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const userRoutes = require("./routes/user_routes");
@@ -20,13 +21,17 @@ app.engine(
     extname: ".hbs",
     defaultLayout: "main",
     layoutsDir: path.join(__dirname, "views", "layouts"),
-    partialsDir: path.join(__dirname, "views", "layouts"),
+    partialsDir: path.join(__dirname, "views", "partials"),
     runtimeOptions: {
       allowProtoPropertiesByDefault: true,
       allowProtoMethodsByDefault: true,
     },
+    helpers: handlebarsHelpers,
   })
 );
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Sessions, a guest session is started automatically
 app.use(

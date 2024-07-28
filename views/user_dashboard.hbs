@@ -14,7 +14,7 @@
     {{#if restaurants.length}}
       {{#each restaurants}}
                 <div class="resta-container">
-                    <a href="/restaurant/{{this._id}}">
+                    
                         <h2>{{this.resta_name}}</h2>
                         <img src="{{this.resta_logo}}" alt="{{this.resta_name}} Logo" style="max-width: 200px; max-height:100px">
                         <p><strong>Description:</strong> {{this.resta_description}}</p>
@@ -22,9 +22,22 @@
                         <p><strong>Hours:</strong> {{this.resta_hours}}</p>
                         <p><strong>Email:</strong> {{this.resta_email}}</p>
                         <p><strong>Phone:</strong> {{this.resta_phone}}</p>
-                    </a>
-                    <form action="/add_menu_items" method="GET">
+                    
+                    {{#if (lookup ../menuItemsByRestaurant this._id)}}
+                      <form action="/restaurant/{{this._id}}" method="GET" class="resta-form">
+                        <button type="submit" class="btn btn-secondary">View Menu</button>
+                      </form>
+                    {{/if}}
+                    
+                      <form action="/add_menu_items" method="GET" class="resta-form" >
                         <button type="submit" class="btn btn-primary">Add Menu Items</button>
+                      </form>
+                      <!-- Delete Button -->
+                      <form action="/restaurant/delete" class="resta-form">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                    <form action="/get_qr" method="GET" class="resta-form">
+                        <button type="submit" class="btn btn-primary">Get Qr Code</button>
                     </form>
                 </div>
                 {{/each}}

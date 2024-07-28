@@ -161,11 +161,27 @@ router.get("/user_dashboard", async (req, res) => {
       const restaurants = await Restaurant.find({
         user_id: req.session.user.id,
       });
+
+      // Fetch menu items for each restaurant
+      const menuItems = await MenuItem.find({
+        resta_profile_id: { $in: restaurants.map((r) => r._id) },
+      });
+
+      // Group menu items by restaurant ID
+      const menuItemsByRestaurant = {};
+      menuItems.forEach((item) => {
+        if (!menuItemsByRestaurant[item.resta_profile_id]) {
+          menuItemsByRestaurant[item.resta_profile_id] = [];
+        }
+        menuItemsByRestaurant[item.resta_profile_id].push(item);
+      });
+
       res.render("user_dashboard", {
         title: "User Dashboard",
         message: "Welcome to your dashboard.",
         user: req.session.user,
         restaurants: restaurants,
+        menuItemsByRestaurant: menuItemsByRestaurant,
         userSession: true,
       });
     } catch (error) {
@@ -179,6 +195,7 @@ router.get("/user_dashboard", async (req, res) => {
     res.redirect("/login");
   }
 });
+
 
 // Route to Get restaurant profile
 router.get("/create_restaurant_profile", (req, res) => {
@@ -249,6 +266,8 @@ router.get("/restaurant/:id", async (req, res) => {
           title: restaurant.resta_name,
           restaurant,
           menuItems,
+          user: req.session.user,
+          userSession: true,
       });
   } catch (error) {
       console.error("Error fetching restaurant menu:", error);
@@ -256,7 +275,7 @@ router.get("/restaurant/:id", async (req, res) => {
   }
 });
 
-// API to fetch menu items for a specific restaurant profile
+// API to fetch menu items for a specific restaurant profile --- The Previous Get route already fetches that stuff
 router.get("/api/restaurant/:id/menu_items", async (req, res) => {
   const restaurantId = req.params.id;
   try {
