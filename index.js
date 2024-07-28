@@ -1,12 +1,17 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const path = require("path");
-const fs = require("fs");
 const exphbs = require("express-handlebars");
-// const upload = require("./middleware/multer");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const userRoutes = require("./routes/user_routes");
+const menuRoutes = require("./routes/menu_routes");
+const authMiddleware = require("./middleware/auth"); // must implement
 
+// Handlebars Config
 app.set("view engine", ".hbs");
 app.set("views", path.join(__dirname, "views"));
 app.engine(
@@ -14,20 +19,55 @@ app.engine(
   exphbs.engine({
     extname: ".hbs",
     defaultLayout: "main",
-    layoutsDir: __dirname + "/views/layouts/",
-    partialsDir: __dirname + "/views/layouts/",
+    layoutsDir: path.join(__dirname, "views", "layouts"),
+    partialsDir: path.join(__dirname, "views", "layouts"),
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+      allowProtoMethodsByDefault: true,
+    },
   })
 );
 
-// middleware (just these 2 since they are small):
-app.use(express.urlencoded({ extended: true })); // handle normal forms -> url encoded
-app.use(express.json()); // Handle raw json data
+// Sessions, a guest session is started automatically
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_HOST,
+      collectionName: "sessions",
+    }),
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 day
+    name: "qrmenu.sid",
+  })
+);
 
-// Serve static files from the 'public' directory, without this no styles nor libraries will be loaded!!
+// Mongoose config
+mongoose.connect(process.env.DB_HOST);
+let db = mongoose.connection;
+
+db.once("open", () => {
+  console.log("Connected to MongoDB");
+});
+db.on("error", (err) => {
+  console.log("DB Error:" + err);
+});
+
+// Application level middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Serve static files from the 'public' directory
 app.use("/public", express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(path.join(__dirname, "public/uploads"))); //This is needed to allow the client to access the images using URLs!
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 // ROUTES
+
+// Use the user routes
+app.use(userRoutes);
+app.use(menuRoutes);
+
 // Home
 app.get("/", (req, res) => {
   res.render("home", {
@@ -35,20 +75,7 @@ app.get("/", (req, res) => {
     message: "Welcome, select an option from the navigation menu.",
   });
 });
-// Login
-app.get("/login", (req, res) => {
-  res.render("login", {
-    title: "Login",
-    message: "Enter your credentials.",
-  });
-});
-// Register
-app.get("/register", (req, res) => {
-  res.render("register", {
-    title: "Register",
-    message: "Enter your info.",
-  });
-});
+
 // About
 app.get("/about", (req, res) => {
   res.render("about", {
@@ -56,6 +83,7 @@ app.get("/about", (req, res) => {
     message: "Developers",
   });
 });
+
 // Pricing
 app.get("/pricing", (req, res) => {
   res.render("pricing", {
@@ -67,6 +95,7 @@ app.get("/pricing", (req, res) => {
 app.use((req, res) => {
   res.status(404).send("Route not found 😕");
 });
+
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
 });

@@ -2,7 +2,7 @@ let mongoose = require("mongoose");
 
 let menu_itemSchema = mongoose.Schema({
   resta_profile_id: {
-    type: Number,
+    type: String,
     required: true,
   },
   item_id: {
@@ -12,7 +12,7 @@ let menu_itemSchema = mongoose.Schema({
   item_category: {
     type: String,
     required: true,
-    enum: ["breakfast", "main", "entree", "beverage", "dessert"],
+    enum: ["specials", "breakfast", "brunch", "main", "entrees", "beverages", "desserts", "specials", "hot-beverages"],
     default: null,
   },
   item_name: {

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .menu-item {
+            border: 1px solid #ccc;
+            padding: 16px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        .menu-item img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const restaurantId = "{{restaurant._id}}"; // Pass restaurant ID to JS
+            fetch(`/api/restaurant/${restaurantId}/menu_items`)
+                .then(response => response.json())
+                .then(menuItems => {
+                    const menuItemsContainer = document.querySelector(".menu-items");
+                    menuItems.forEach(item => {
+                        const menuItemDiv = document.createElement("div");
+                        menuItemDiv.classList.add("menu-item");
+                        menuItemDiv.innerHTML = `
+                            <h3>${item.item_name}</h3>
+                            <p>${item.item_description}</p>
+                            <p>Price: $${item.item_price}</p>
+                            ${item.item_photo ? `<img src="/uploads/${item.item_photo}" alt="${item.item_name}">` : ""}
+                        `;
+                        menuItemsContainer.appendChild(menuItemDiv);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching menu items:", error);
+                });
+        });
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="/user_dashboard">User Dashboard</a>
+        <a href="#">Restaurant Profile</a>
+        <a href="#">Edit Account</a>
+        <a href="#">Delete Account</a>
+        <a href="#">Logout</a>
+    </div>
+    <main class="main-content">
+        <div class="container">
+            <h1>{{restaurant.resta_name}}</h1>
+            <p>{{restaurant.resta_description}}</p>
+            <h2>Menu</h2>
+            <div class="menu-items">
+                <!-- Menu items will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<div class="sidebar">
+    <a href="/user_dashboard">User Dashboard</a>
+    <a href="#">Restaurant Profile</a>
+    <a href="#">Edit Account</a>
+    <a href="#">Delete Account</a>
+    <a href="#">Logout</a>
+</div>
+<main class="main-content">
+    <div class="container">
+        <h1>Add Menu Item</h1>
+        <form id="menuItemForm" action="/add_menu_item" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="itemCategory">Item Category</label>
+                <select class="form-control form-control-sm" id="itemCategory" name="item_category" required>
+                    <option value="" selected disabled>Select Category</option>
+                    <option value="specials">Specials</option>
+                    <option value="breakfast">Breakfast</option>
+                    <option value="brunch">Brunch</option>
+                    <option value="main">Main</option>
+                    <option value="entrees">Entrees</option>
+                    <option value="beverages">Beverages</option>
+                    <option value="desserts">Desserts</option>
+                    <option value="hot-beverages">Hot Beverages</option>
+                </select>
+                <span>If you don't classify your item, it will be displayed at the top of the menu sorted by input order. Perhaps select "Specials" if you are unsure.</span>
+                <div class="invalid-feedback" id="itemCategoryError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="itemName">Item Name</label>
+                <input type="text" class="form-control form-control-sm" id="itemName" name="item_name" placeholder="Enter Item Name" required>
+                <div class="invalid-feedback" id="itemNameError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="itemPhoto">Item Photo</label>
+                <input type="file" class="form-control-file" id="itemPhoto" name="item_photo">
+                <div class="invalid-feedback" id="itemPhotoError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="itemDescription">Item Description</label>
+                <textarea class="form-control form-control-sm" id="itemDescription" name="item_description" rows="3" placeholder="Enter Item Description" required></textarea>
+                <div class="invalid-feedback" id="itemDescriptionError"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Item Labels</label>
+                <div>
+                    <input type="checkbox" id="spicy" name="item_labels[]" value="spicy">
+                    <label for="spicy">Spicy</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="glutenFree" name="item_labels[]" value="gluten-free">
+                    <label for="glutenFree">Gluten-Free</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="vegan" name="item_labels[]" value="vegan">
+                    <label for="vegan">Vegan</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="vegetarian" name="item_labels[]" value="vegetarian">
+                    <label for="vegetarian">Vegetarian</label>
+                </div>
+                <div class="invalid-feedback" id="itemLabelsError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="itemPrice">Item Price</label>
+                <input type="number" class="form-control form-control-sm" id="itemPrice" name="item_price" min="0" step="0.01" placeholder="Enter Item Price" required>
+                <div class="invalid-feedback" id="itemPriceError"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Item</button>
+        </form>
+    </div>
+</main>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const veganCheckbox = document.getElementById("vegan");
+    const vegetarianCheckbox = document.getElementById("vegetarian");
+
+    veganCheckbox.addEventListener("change", () => {
+      if (veganCheckbox.checked && vegetarianCheckbox.checked) {
+        vegetarianCheckbox.checked = false;
+        alert("You can only select either 'Vegan' or 'Vegetarian', not both.");
+      }
+    });
+
+    vegetarianCheckbox.addEventListener("change", () => {
+      if (vegetarianCheckbox.checked && veganCheckbox.checked) {
+        veganCheckbox.checked = false;
+        alert("You can only select either 'Vegan' or 'Vegetarian', not both.");
+      }
+    });
+  });
+</script>

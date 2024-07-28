@@ -1,18 +1,49 @@
-<form action="">
+<div class="sidebar">
+    {{!-- <span id="userWelcome-create" class="user-welcome"></span> --}}
+    <a href="/user_dashboard">User Dashboard</a>
+    <a href="#">Edit Account</a>
+    <a href="#">Delete Account</a>
+    <a href="#">Logout</a>
+  </div>
+<main class="main-content">  
+<div class="container">
 
-
-
-
-<p>Choose your restaurrant colors:</p>
-
-<div>
-  <input type="color" id="head" name="head" value="#e66465" />
-  <label for="head">Header or top of menu</label>
+  <h1>Create Restaurant Profile</h1>
+  <form action="/create_restaurant_profile" method="POST">
+    <div class="form-group">
+      <label for="resta_name">Restaurant Name:</label>
+      <input type="text" class="form-control" id="resta_name" name="resta_name" required>
+    </div>
+    <div class="form-group">
+      <label for="resta_logo">Restaurant Logo URL:</label>
+      <input type="text" class="form-control" id="resta_logo" name="resta_logo">
+    </div>
+    <div class="form-group">
+      <label for="resta_description">Restaurant Description:</label>
+      <textarea class="form-control" id="resta_description" name="resta_description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="resta_location">Restaurant Location:</label>
+      <input type="text" class="form-control" id="resta_location" name="resta_location" required>
+    </div>
+    <div class="form-group">
+      <label for="resta_hours">Restaurant Hours:</label>
+      <input type="text" class="form-control" id="resta_hours" name="resta_hours" required>
+    </div>
+    <div class="form-group">
+      <label for="resta_email">Restaurant Email:</label>
+      <input type="email" class="form-control" id="resta_email" name="resta_email">
+    </div>
+    <div class="form-group">
+      <label for="resta_phone">Restaurant Phone:</label>
+      <input type="text" class="form-control" id="resta_phone" name="resta_phone" placeholder="(123) 456-7890">
+    </div>
+    <button type="submit" class="btn btn-primary">Create Profile</button>
+  </form>
 </div>
+</main>
 
-<div>
-  <input type="color" id="body" name="body" value="#f6b73c" />
-  <label for="body">Body of restaurant menu</label>
-</div>
-
-</form>
+<script>
+  const userWelcome = document.getElementById("userWelcome-create");
+  userWelcome.textContent = `Hello, {{user.email}}`;
+</script>
