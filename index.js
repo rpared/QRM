@@ -9,6 +9,7 @@ const handlebarsHelpers = require("./helpers/handlebars-helpers");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const userRoutes = require("./routes/user_routes");
+const restaurantRoutes = require("./routes/restaurant_routes");
 const menuRoutes = require("./routes/menu_routes");
 const authMiddleware = require("./middleware/auth"); // must implement
 
@@ -69,8 +70,9 @@ app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 // ROUTES
 
-// Use the user routes
+// Use the 3 routers
 app.use(userRoutes);
+app.use(restaurantRoutes);
 app.use(menuRoutes);
 
 // Home

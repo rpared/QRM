@@ -1,0 +1,56 @@
+
+
+   <header class="header">
+        <h1>{{restaurant.resta_name}}</h1>
+        {{#if restaurant.resta_logo}}
+        <img src="/uploads/{{restaurant.resta_logo}}" alt="{{restaurant.resta_name}}" class="restaurant-logo">
+        {{/if}}
+    </header>
+
+    <section class="restaurant-info">
+        <div class="collapsible-button">
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#restaurantInfo" aria-expanded="false" aria-controls="restaurantInfo">
+                Basic Information
+            </button>
+        </div>
+        <div id="restaurantInfo" class="collapsible-content collapse">
+            <p>{{restaurant.resta_description}}</p>
+            <p>Location: {{restaurant.resta_location}}</p>
+            <p>Hours: {{restaurant.resta_hours}}</p>
+        </div>
+    </section>
+
+    <main class="menu-items">
+        {{#each menuItems}}
+        <div class="menu-item">
+            <img src="/uploads/{{this.item_photo}}" alt="{{this.item_name}}">
+            <div class="menu-item-details">
+                <h3>{{this.item_name}}</h3>
+                <p>{{this.item_description}}</p>
+                <p>Price: ${{this.item_price}}</p>
+                <p>Category: {{this.item_category}}</p>
+                <p>Labels: {{#each this.item_labels}} {{this}} {{/each}}</p>
+            </div>
+        </div>
+        {{/each}}
+    </main>
+
+    <div class="contact-info">
+        <p>Email: {{restaurant.resta_email}}</p>
+        <p>Phone: {{restaurant.resta_phone}}</p>
+    </div>
+
+
+        <script>
+            let infoContent = document.querySelector(".collapsible-content");
+            let infoBtn = document.querySelector(".collapsible-button");
+
+            infoBtn.addEventListener("click", function() {
+            if (infoContent.style.display === "block") {
+                infoContent.style.display = "none"; // Hide the content if it's already visible
+            } else {
+                infoContent.style.display = "block"; // Show the content if it's hidden
+            }
+});
+
+        </script>
