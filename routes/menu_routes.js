@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const Restaurant = require("../models/restaProfiles");
 const MenuItem = require("../models/menuItem");
 // const multer = require("multer");
 const path = require("path");
@@ -138,6 +139,50 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
     });
 
   
-
+// Customize the style of the menu: background and font color
+// GET
+        router.get("/restaurant/:restaurantId/styles", async (req, res) => {
+            const { restaurantId } = req.params; // Correctly extract restaurantId from params
+            try {
+            const restaurant = await Restaurant.findById(restaurantId); // Nedds the Restaurant model
+            if (!restaurant) {
+                return res.status(404).send("Restaurant not found");
+            }
+            res.render("customize_menu_style", {
+                title: "Customize Menu Style",
+                restaurant,
+                user: req.session.user,
+                userSession: true,
+            });
+            } catch (error) {
+            console.error("Error loading Customize Style page:", error);
+            res.status(500).send("Error loading Customize Style page");
+            }
+        });
+  
+// POST
+        router.post("/restaurant/:restaurantId/styles", async (req, res) => {
+            const { restaurantId } = req.params;
+            const { headerColor, bodyColor, fontColor } = req.body;
+            try {
+            const restaurant = await Restaurant.findById(restaurantId);
+            if (!restaurant) {
+                return res.status(404).send("Restaurant not found");
+            }
+            
+            // Update the restaurant's style settings
+            restaurant.headerColor = headerColor;
+            restaurant.bodyColor = bodyColor;
+            restaurant.fontColor = fontColor;
+            await restaurant.save();
+        
+            res.redirect(`/restaurant/${restaurantId}/styles`);
+            } catch (error) {
+            console.error("Error updating restaurant styles:", error);
+            res.status(500).send("Error saving styles");
+            }
+        });
+  
+  
 
 module.exports = router;

@@ -1,9 +1,9 @@
     <div class="sidebar">
         <a href="/user_dashboard">User Dashboard</a>
-        <a href="#">Restaurant Profile</a>
+        <a href="/restaurant/{{restaurant._id}}/styles">Customize Style</a>
         <a href="#">Edit Account</a>
         <a href="#">Delete Account</a>
-        <a href="#">Logout</a>
+        <a href="/logout">Logout</a>
     </div>
     <main class="main-content">
         <div class="container">
@@ -26,49 +26,53 @@
                         <button type="submit" class="btn btn-secondary">Edit</button>
                         </form>
 
-                        <!-- Delete Button -->
-                        <form action="/restaurant/{{../restaurant._id}}/menu/{{this._id}}/delete" method="POST" class="menu-item-form">
+                        <!-- Original Delete Button -->
+                        {{!-- <form action="/restaurant/{{../restaurant._id}}/menu/{{this._id}}/delete" method="POST" class="menu-item-form">
                         <button type="submit" class="btn btn-danger">Delete</button>
+                        </form> --}}
+
+                        <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#menu-{{this._id}}">
+                      Delete
+                    </button>
+                </div>
+                <!-- Modal -->
+                    <div class="modal fade" id="menu-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete menu item</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            This action will delete <b>{{this.item_name}}</b>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                        <form action="/restaurant/{{../restaurant._id}}/menu/{{this._id}}/delete" method="POST" class="menu-item-form">
+                                <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
+                        </div>
+                        </div>
                     </div>
+                    </div>
+
+
                 {{/each}}
-                
-             </div>
-            <!--
-            <div class="menu-items">
-                
-                Menu items will be dynamically inserted here 
-            </div>-->
+            </div>
             <form action="/add_menu_items" method="GET">
                         <button type="submit" class="btn btn-primary d-block">Add Menu Items</button>
             </form>
+                <!-- Customize Style Button -->
+                        <form action="/restaurant/{{restaurant._id}}/styles" method="GET" class="menu-item-form">
+                        <button type="submit" class="btn btn-secondary">Customize Menu Style</button>
+                        </form> 
+             
+
+            
         </div>
     </main>
 
-  <!-- No longer needed 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const restaurantId = "{{restaurant._id}}"; // Pass restaurant ID to JS
-            fetch(`/api/restaurant/${restaurantId}/menu_items`)
-                .then(response => response.json())
-                .then(menuItems => {
-                    const menuItemsContainer = document.querySelector(".menu-items");
-                    menuItems.forEach(item => {
-                        const menuItemDiv = document.createElement("div");
-                        menuItemDiv.classList.add("menu-item");
-                        menuItemDiv.innerHTML = `
-                            <h3>${item.item_name}</h3>
-                            <p>${item.item_description}</p>
-                            <p>Price: $${item.item_price}</p>
-                            ${item.item_photo ? `<img src="/uploads/${item.item_photo}" alt="${item.item_name}">` : ""}
-                        `;
-                        menuItemsContainer.appendChild(menuItemDiv);
-                    });
-                })
-                .catch(error => {
-                    console.error("Error fetching menu items:", error);
-                });
-        });
-    </script>
-
--->

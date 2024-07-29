@@ -3,7 +3,7 @@
     <a href="/create_restaurant_profile">Create Restaurant</a>
     <a href="#">Edit Account</a>
     <a href="#">Delete Account</a>
-    <a href="#">Logout</a>
+    <a href="/logout">Logout</a>
   </div>
 
  <main class="main-content">
@@ -31,7 +31,8 @@
                       <form>
                       <a href="/restaurant/{{this._id}}/client_menu" target="_blank" class="btn btn-secondary">View Client Menu</a>
                       </form>
-                      <form action="/get_qr" method="GET" class="resta-form">
+                      {{!-- Download the QR Code --}}
+                      <form action="/restaurant/{{this._id}}/qrcode/download" method="GET" class="resta-form">
                           <button type="submit" class="btn btn-primary">Get Qr Code</button>
                       </form>
 
@@ -42,18 +43,37 @@
                       </form>
 
                       <form action="/restaurant/{{this._id}}/edit" method="GET" class="resta-form">
-                        <button type="submit" class="btn btn-primary">Edit Restaurant</button>
+                        <button type="submit" class="btn btn-primary">Edit Restaurant Info</button>
                       </form>
                         
                       
                     <!-- Delete Button -->
-                      {{!-- <form action="/restaurant/delete" method="DELETE" class="resta-form">
-                        <input type="hidden" value="{{this._id}}" name="id">
-                        <button type="submit" class="btn btn-danger">Delete</button> --}}
-                        <div class="resta-form">
-                        <a href="api/restaurant/delete/{{this._id}}"  class="btn btn-danger">Delete</a>
-                      </div>
+                       <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#resta-{{this._id}}">
+                      Delete
+                    </button>
                 </div>
+                <!-- Modal -->
+                    <div class="modal fade" id="resta-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete restaurant </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            This action will delete <b>{{this.resta_name}}</b>. Are you sure?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                          <a href="api/restaurant/delete/{{this._id}}"  class="btn btn-danger">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 {{/each}}
     </div>
     {{else}}
