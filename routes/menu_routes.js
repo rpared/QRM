@@ -34,14 +34,21 @@ router.get("/add_menu_items", (req, res) => {
 });
 
 router.post("/add_menu_item", upload.single('item_photo'), async (req, res) => {
-    const { item_name, item_category, item_description, item_labels, item_price } = req.body;
+    const { item_name, 
+        item_category, 
+        item_description, 
+        item_labels, 
+        item_price 
+    } = req.body;
     const item_photo = req.file ? req.file.filename : null;
     const resta_profile_id = req.session.user.resta_profile_id; // Get restaurant profile ID from session
+    console.log("Received data:", req.body);
+    console.log("File information:", req.file);
 
     try {
         const newItem = new MenuItem({
             resta_profile_id,
-            item_id: Date.now(), // Simple way to generate item ID, consider using a better approach
+            item_id: Date.now(), // Simple way to generate item ID
             item_category,
             item_name,
             item_photo,
@@ -51,7 +58,7 @@ router.post("/add_menu_item", upload.single('item_photo'), async (req, res) => {
         });
 
         await newItem.save();
-        res.redirect("/add_menu_items");
+        res.redirect(`/restaurant/${resta_profile_id}`);
     } catch (error) {
         console.error("Error adding menu item:", error);
         res.status(500).send("Internal Server Error");
@@ -85,11 +92,16 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
     const item_photo = req.file ? req.file.filename : null;
     const resta_profile_id = req.session.user.resta_profile_id;
 
+    console.log("Received data:", req.body);
+    console.log("Updating item with ID:", item_id);
+    console.log("Restaurant profile ID:", resta_profile_id);
+
     try {
         // Find the item by its ID and restaurant profile ID
         const item = await MenuItem.findOne({ item_id, resta_profile_id });
 
         if (!item) {
+            console.log("Menu item not found with ID:", item_id, "and restaurant profile ID:", resta_profile_id);
             return res.status(404).send("Menu item not found");
         }
 
@@ -104,7 +116,7 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
         item.item_price = item_price;
 
         await item.save();
-        res.redirect("/edit_menu_items"); // Redirect to a page where the updated item is shown
+        res.redirect(`/restaurant/${resta_profile_id}`); // Redirect to a page where the updated item is shown
     } catch (error) {
         console.error("Error updating menu item:", error);
         res.status(500).send("Internal Server Error");
@@ -113,18 +125,19 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
 
   
   // Delete Menu Item
-  router.post("/restaurant/:restaurantId/menu/:menuItemId/delete", (req, res) => {
+  router.post("/restaurant/:restaurantId/menu/:menuItemId/delete", async (req, res) => {
     const { restaurantId, menuItemId } = req.params;
     // Logic to delete the menu item
-    MenuItem.findByIdAndRemove(menuItemId, (err) => {
-      if (err) {
-        return res.status(500).send("Error deleting menu item");
-      }
+    try {
+        const result = await MenuItem.findByIdAndDelete(menuItemId);
+    } catch (error) {
+        console.error("Error deleting item:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
       res.redirect(`/restaurant/${restaurantId}`);
     });
-  });
-  
 
+  
 
 
 module.exports = router;

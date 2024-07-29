@@ -16,7 +16,7 @@
                 <div class="resta-container">
                     
                         <h2>{{this.resta_name}}</h2>
-                        <img src="{{this.resta_logo}}" alt="{{this.resta_name}} Logo" style="max-width: 200px; max-height:100px">
+                        <img src="uploads/{{this.resta_logo}}" alt="{{this.resta_name}} Logo" style="max-width: 200px; max-height:100px">
                         <p><strong>Description:</strong> {{this.resta_description}}</p>
                         <p><strong>Location:</strong> {{this.resta_location}}</p>
                         <p><strong>Hours:</strong> {{this.resta_hours}}</p>
@@ -30,15 +30,23 @@
                     {{/if}}
                     
                       <form action="/add_menu_items" method="GET" class="resta-form" >
-                        <button type="submit" class="btn btn-primary">Add Menu Items</button>
+                        <button type="submit" class="btn btn-secondary">Add Menu Items</button>
                       </form>
-                      <!-- Delete Button -->
-                      <form action="/restaurant/delete" class="resta-form">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+
+                      <form action="/restaurant/{{this._id}}/edit" method="GET" class="resta-form">
+                        <button type="submit" class="btn btn-primary">Edit</button>
                       </form>
-                    <form action="/get_qr" method="GET" class="resta-form">
-                        <button type="submit" class="btn btn-primary">Get Qr Code</button>
-                    </form>
+                        
+                      <form action="/get_qr" method="GET" class="resta-form">
+                          <button type="submit" class="btn btn-primary">Get Qr Code</button>
+                      </form>
+                    <!-- Delete Button -->
+                      {{!-- <form action="/restaurant/delete" method="DELETE" class="resta-form">
+                        <input type="hidden" value="{{this._id}}" name="id">
+                        <button type="submit" class="btn btn-danger">Delete</button> --}}
+                        <div class="resta-form">
+                        <a href="api/restaurant/delete/{{this._id}}"  class="btn btn-danger">Delete</a>
+                      </div>
                 </div>
                 {{/each}}
     </div>
