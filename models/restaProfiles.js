@@ -10,7 +10,7 @@ let restaprofilesSchema = mongoose.Schema({
     required: true,
   },
   resta_logo: {
-    type: String,
+    type: String, // Store the S3 URL here
     default: null,
   },
   resta_description: {

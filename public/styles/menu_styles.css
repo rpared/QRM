@@ -1,0 +1,43 @@
+.menu-items {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Default to 4 columns */
+    gap: 16px; /* Add space between the items */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1200px) {
+    .menu-items {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for large screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .menu-items {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .menu-items {
+        grid-template-columns: 1fr; /* 1 column for small screens */
+    }
+}
+.menu-item {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+.menu-item img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.menu-item-form {
+    display: inline-block;
+    margin-right: 10px; /* Optional: add some space between buttons */
+  }
+  

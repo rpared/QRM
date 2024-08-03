@@ -2,7 +2,7 @@ let mongoose = require("mongoose");
 
 let menu_itemSchema = mongoose.Schema({
   resta_profile_id: {
-    type: Number,
+    type: String,
     required: true,
   },
   item_id: {
@@ -20,7 +20,7 @@ let menu_itemSchema = mongoose.Schema({
     required: true,
   },
   item_photo: {
-    type: String,
+    type: String, // Store the S3 URL here
     default: null,
   },
   item_description: {

@@ -1,0 +1,97 @@
+<div class="sidebar">
+    <a href="/user_dashboard">User Dashboard</a>
+    <a href="/restaurant/{{restaurant._id}}">Restaurant Profile</a>
+    <a href="#">Edit Account</a>
+    <a href="#">Delete Account</a>
+    <a href="/logout">Logout</a>
+</div>
+<main class="main-content">
+    <div class="container">
+        <h1>Edit Menu Item</h1>
+        <form id="menuItemForm" action="/update_menu_item" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="itemCategory">Item Category</label>
+                <select class="form-control form-control-sm" id="itemCategory" name="item_category" required>
+                    <option value="" disabled>Select Category</option>
+                    <option value="specials" {{#if (eq menuItem.item_category "specials")}}selected{{/if}}>Specials</option>
+                    <option value="breakfast" {{#if (eq menuItem.item_category "breakfast")}}selected{{/if}}>Breakfast</option>
+                    <option value="brunch" {{#if (eq menuItem.item_category "brunch")}}selected{{/if}}>Brunch</option>
+                    <option value="main" {{#if (eq menuItem.item_category "main")}}selected{{/if}}>Main</option>
+                    <option value="entrees" {{#if (eq menuItem.item_category "entrees")}}selected{{/if}}>Entrees</option>
+                    <option value="beverages" {{#if (eq menuItem.item_category "beverages")}}selected{{/if}}>Beverages</option>
+                    <option value="desserts" {{#if (eq menuItem.item_category "desserts")}}selected{{/if}}>Desserts</option>
+                    <option value="hot-beverages" {{#if (eq menuItem.item_category "hot-beverages")}}selected{{/if}}>Hot Beverages</option>
+                </select>
+                <span>If you don't classify your item, it will be displayed at the top of the menu sorted by input order. Perhaps select "Specials" if you are unsure.</span>
+                <div class="invalid-feedback" id="itemCategoryError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="itemName">Item Name</label>
+                <input type="text" class="form-control form-control-sm" id="itemName" name="item_name" placeholder="Enter Item Name" value="{{menuItem.item_name}}" required>
+                <div class="invalid-feedback" id="itemNameError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="itemPhoto">Item Photo</label>
+                <input type="file" class="form-control-file" id="itemPhoto" name="item_photo">
+                <div class="invalid-feedback" id="itemPhotoError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="itemDescription">Item Description</label>
+                <textarea class="form-control form-control-sm" id="itemDescription" name="item_description" rows="3" placeholder="Enter Item Description" required>{{menuItem.item_description}}</textarea>
+                <div class="invalid-feedback" id="itemDescriptionError"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Item Labels</label>
+                <div>
+                    <input type="checkbox" id="spicy" name="item_labels[]" value="spicy" {{#if (includes menuItem.item_labels "spicy")}}checked{{/if}}>
+                    <label for="spicy">Spicy</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="glutenFree" name="item_labels[]" value="gluten-free" {{#if (includes menuItem.item_labels "gluten-free")}}checked{{/if}}>
+                    <label for="glutenFree">Gluten-Free</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="vegan" name="item_labels[]" value="vegan" {{#if (includes menuItem.item_labels "vegan")}}checked{{/if}}>
+                    <label for="vegan">Vegan</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="vegetarian" name="item_labels[]" value="vegetarian" {{#if (includes menuItem.item_labels "vegetarian")}}checked{{/if}}>
+                    <label for="vegetarian">Vegetarian</label>
+                </div>
+                <div class="invalid-feedback" id="itemLabelsError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="itemPrice">Item Price</label>
+                <input type="number" class="form-control form-control-sm" id="itemPrice" name="item_price" min="0" step="0.01" placeholder="Enter Item Price" value="{{menuItem.item_price}}" required>
+                <div class="invalid-feedback" id="itemPriceError"></div>
+            </div>
+            <input type="hidden" name="item_id" value="{{menuItem.item_id}}">
+            <button type="submit" class="btn btn-primary">Update Item</button>
+        </form>
+    </div>
+</main>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const veganCheckbox = document.getElementById("vegan");
+    const vegetarianCheckbox = document.getElementById("vegetarian");
+
+    veganCheckbox.addEventListener("change", () => {
+      if (veganCheckbox.checked && vegetarianCheckbox.checked) {
+        vegetarianCheckbox.checked = false;
+        alert("You can only select either 'Vegan' or 'Vegetarian', not both.");
+      }
+    });
+
+    vegetarianCheckbox.addEventListener("change", () => {
+      if (vegetarianCheckbox.checked && veganCheckbox.checked) {
+        veganCheckbox.checked = false;
+        alert("You can only select either 'Vegan' or 'Vegetarian', not both.");
+      }
+    });
+  });
+</script>

@@ -1,0 +1,51 @@
+<div class="sidebar">
+    {{!-- <span id="userWelcome-create" class="user-welcome"></span> --}}
+    <a href="/user_dashboard">User Dashboard</a>
+    <a href="#">Edit Account</a>
+    <a href="#">Delete Account</a>
+    <a href="/logout">Logout</a>
+  </div>
+<main class="main-content">  
+<div class="container">
+
+  <h1>Edit Restaurant Profile</h1>
+  <form action="/restaurant/{{restaurant._id}}/edit" method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="restaName">Restaurant Name</label>
+    <input type="text" class="form-control" id="restaName" name="resta_name" value="{{restaurant.resta_name}}" required>
+  </div>
+  <div class="form-group">
+    <label for="restaDescription">Description</label>
+    <textarea class="form-control" id="restaDescription" name="resta_description">{{restaurant.resta_description}}</textarea>
+  </div>
+  <div class="form-group">
+    <label for="restaLocation">Location</label>
+    <input type="text" class="form-control" id="restaLocation" name="resta_location" value="{{restaurant.resta_location}}" required>
+  </div>
+  <div class="form-group">
+    <label for="restaHours">Hours</label>
+    <input type="text" class="form-control" id="restaHours" name="resta_hours" value="{{restaurant.resta_hours}}">
+  </div>
+  <div class="form-group">
+    <label for="restaEmail">Email</label>
+    <input type="email" class="form-control" id="restaEmail" name="resta_email" value="{{restaurant.resta_email}}">
+  </div>
+  <div class="form-group">
+    <label for="restaPhone">Phone</label>
+    <input type="tel" class="form-control" id="restaPhone" name="resta_phone" value="{{restaurant.resta_phone}}">
+  </div>
+  <div class="form-group">
+    <label for="restaLogo">Logo</label>
+    <input type="file" class="form-control-file" id="restaLogo" name="resta_logo">
+    <img src="/uploads/{{restaurant.resta_logo}}" alt="{{restaurant.resta_name}}" style="max-width: 100px;">
+  </div>
+  <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+</div>
+</main>
+
+<script>
+  const userWelcome = document.getElementById("userWelcome-create");
+  userWelcome.textContent = `Hello, {{user.email}}`;
+</script>

@@ -1,16 +1,12 @@
-/* Routes for users:
-user dashboard
-edit user information
-delete user
-create restaurant profile
-add/edit/delete profiles
-preview restaurant profiles
-*/
+// user_routes.js
 const express = require("express");
 const router = express.Router();
 const User = require("../models/users");
 const Restaurant = require("../models/restaProfiles");
+const MenuItem = require("../models/menuItem");
 const bcrypt = require("bcrypt");
+const path = require("path");
+const upload = require("../middleware/multerS3"); // Updated to use multerS3
 
 // Register Get
 router.get("/register", (req, res) => {
@@ -98,6 +94,9 @@ router.post("/login", async (req, res) => {
       });
     }
 
+    // Fetch the restaurant profile associated with this user
+    const restaurant = await Restaurant.findOne({ user_id: user._id });
+
     // Successful login
     console.log("Login successful");
 
@@ -106,6 +105,7 @@ router.post("/login", async (req, res) => {
       id: user._id,
       email: user.email,
       firstname: user.firstname,
+      resta_profile_id: restaurant ? restaurant._id : null, // Set resta_profile_id if available
     };
 
     // Save the session explicitly
@@ -161,14 +161,38 @@ router.post("/logout", (req, res) => {
 router.get("/user_dashboard", async (req, res) => {
   if (req.session.user) {
     try {
+      console.log("Fetching restaurants for user:", req.session.user.id);
+
       const restaurants = await Restaurant.find({
         user_id: req.session.user.id,
       });
+
+
+      // Fetch menu items for each restaurant
+      const menuItems = await MenuItem.find({
+        resta_profile_id: { $in: restaurants.map((r) => r._id) },
+      });
+
+
+      // Group menu items by restaurant ID
+      const menuItemsByRestaurant = {};
+      menuItems.forEach((item) => {
+        if (!menuItemsByRestaurant[item.resta_profile_id]) {
+          menuItemsByRestaurant[item.resta_profile_id] = [];
+        }
+        menuItemsByRestaurant[item.resta_profile_id].push(item);
+      });
+
+      console.log("Grouped menu items by restaurant:", menuItemsByRestaurant);
+
       res.render("user_dashboard", {
         title: "User Dashboard",
         message: "Welcome to your dashboard.",
         user: req.session.user,
         restaurants: restaurants,
+        menuItemsByRestaurant: menuItemsByRestaurant,
+        s3BucketName: process.env.S3_BUCKET_NAME,
+        s3Region: process.env.AWS_REGION,
         userSession: true,
       });
     } catch (error) {
@@ -182,58 +206,4 @@ router.get("/user_dashboard", async (req, res) => {
     res.redirect("/login");
   }
 });
-
-// Route to Get restaurant profile
-router.get("/create_restaurant_profile", (req, res) => {
-  if (req.session.user) {
-    res.render("create_resta_profile", {
-      title: "Create Restaurant Profile",
-      user: req.session.user,
-      userSession: true,
-    });
-  } else {
-    res.redirect("/login");
-  }
-});
-
-// Route to handle the creation of a restaurant profile
-router.post("/create_restaurant_profile", async (req, res) => {
-  if (req.session.user) {
-    const {
-      resta_name,
-      resta_logo,
-      resta_description,
-      resta_location,
-      resta_hours,
-      resta_email,
-      resta_phone,
-    } = req.body; // Extract all fields
-    try {
-      const restaurant = new Restaurant({
-        user_id: req.session.user.id,
-        resta_name,
-        resta_logo,
-        resta_description,
-        resta_location,
-        resta_hours,
-        resta_email,
-        resta_phone,
-      });
-
-      await restaurant.save();
-      res.redirect("/user_dashboard");
-    } catch (error) {
-      console.error("Error creating restaurant profile:", error);
-      res.status(500).render("create_resta_profile", {
-        title: "Create Restaurant Profile",
-        message: "Error creating restaurant profile. Please try again.",
-        user: req.session.user,
-        userSession: true,
-      });
-    }
-  } else {
-    res.redirect("/login");
-  }
-});
-
 module.exports = router;
