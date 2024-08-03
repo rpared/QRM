@@ -2,16 +2,15 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const PORT = process.env.PORT || 3000;
 const path = require("path");
 const exphbs = require("express-handlebars");
-const User = require("./models/users");
+const handlebarsHelpers = require("./helpers/handlebars-helpers");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-const router = express.Router();
 const userRoutes = require("./routes/user_routes");
+const restaurantRoutes = require("./routes/restaurant_routes");
 const menuRoutes = require("./routes/menu_routes");
-const authMiddleware = require("./middleware/auth"); // must implement
+const authMiddleware = require("./middleware/auth");
 
 // Handlebars Config
 app.set("view engine", ".hbs");
@@ -22,13 +21,17 @@ app.engine(
     extname: ".hbs",
     defaultLayout: "main",
     layoutsDir: path.join(__dirname, "views", "layouts"),
-    partialsDir: path.join(__dirname, "views", "layouts"),
+    partialsDir: path.join(__dirname, "views", "partials"),
     runtimeOptions: {
       allowProtoPropertiesByDefault: true,
       allowProtoMethodsByDefault: true,
     },
+    helpers: handlebarsHelpers,
   })
 );
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Sessions, a guest session is started automatically
 app.use(
@@ -44,19 +47,6 @@ app.use(
     name: "qrmenu.sid",
   })
 );
-
-// Session Demo to count views
-app.get("/test-session", (req, res) => {
-  if (req.session.views) {
-    req.session.views++;
-    res.setHeader("Content-Type", "text/html");
-    res.write("<p>Views: " + req.session.views + "</p>");
-    res.end();
-  } else {
-    req.session.views = 1;
-    res.end("Welcome to the session demo. Refresh!");
-  }
-});
 
 // Mongoose config
 mongoose.connect(process.env.DB_HOST);
@@ -79,8 +69,9 @@ app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 // ROUTES
 
-// Use the user routes
+// Use the 3 routers
 app.use(userRoutes);
+app.use(restaurantRoutes);
 app.use(menuRoutes);
 
 // Home
@@ -90,6 +81,7 @@ app.get("/", (req, res) => {
     message: "Welcome, select an option from the navigation menu.",
   });
 });
+
 // About
 app.get("/about", (req, res) => {
   res.render("about", {
@@ -110,6 +102,6 @@ app.use((req, res) => {
   res.status(404).send("Route not found 😕");
 });
 
-app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`http://localhost:${process.env.PORT}`);
 });
