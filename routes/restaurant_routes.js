@@ -10,6 +10,29 @@ const upload = require("../middleware/multerS3"); // Use the new S3 storage conf
 const QRCode = require('qrcode');
 const PORT = process.env.PORT || 3000;
 
+// Generate QRcode for download
+router.get('/restaurant/:restaurantId/qrcode/download', async (req, res) => {
+    const { restaurantId } = req.params;
+    try {
+      const opts = {
+        errorCorrectionLevel: 'H',
+        type: 'image/jpeg',
+        quality: 0.3,
+        margin: 1,
+      };
+      const url = `http://localhost:${PORT}/restaurant/${restaurantId}/client_menu`;
+      const qrCodeBuffer = await QRCode.toBuffer(url, opts);
+  
+      res.setHeader('Content-Disposition', 'attachment; filename="qrcode.jpg"');
+      res.setHeader('Content-Type', 'image/jpeg');
+      res.send(qrCodeBuffer);
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+
 // Route to display Client Menu, the QR code menu
 router.get("/restaurant/:id/client_menu", async (req, res) => {
     const restaurantId = req.params.id;
