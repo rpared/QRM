@@ -163,7 +163,7 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
 // POST
         router.post("/restaurant/:restaurantId/styles", async (req, res) => {
             const { restaurantId } = req.params;
-            const { headerColor, bodyColor, fontColor } = req.body;
+            const { headerColor, bodyColor, fontColor, itemBackgroundColor } = req.body;
             try {
             const restaurant = await Restaurant.findById(restaurantId);
             if (!restaurant) {
@@ -174,9 +174,11 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
             restaurant.headerColor = headerColor;
             restaurant.bodyColor = bodyColor;
             restaurant.fontColor = fontColor;
+            restaurant.itemBackgroundColor = itemBackgroundColor;
             await restaurant.save();
         
             res.redirect(`/restaurant/${restaurantId}/styles`);
+            // res.send('Colors saved!');
             } catch (error) {
             console.error("Error updating restaurant styles:", error);
             res.status(500).send("Error saving styles");

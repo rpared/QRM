@@ -1,21 +1,61 @@
+
 .menu-items {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(4, 1fr); /* Default to 4 columns */
+    gap: 16px; /* Space between the items */
+    margin: 20px 12px;
 }
+
+@media (max-width: 1200px) {
+    .menu-items {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for large screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .menu-items {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .menu-items {
+        grid-template-columns: 1fr; /* 1 column for small screens */
+    }
+}
+
 .menu-item {
     border: 1px solid #ccc;
     padding: 16px;
     border-radius: 8px;
     background-color: #f9f9f9;
-    text-align: center;
+    text-align: left;
+    box-shadow: 0 0 3px gray;
 }
+
 .menu-item img {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 200px; /* Set a fixed height for images */
+    object-fit: cover; /* Crop or resize to fit the container */
     margin-bottom: 10px;
+}
+.menu-item-details h3{
+    margin: 0;
+    padding: 0;
+    font-size: 18pt;
+    border-bottom: 1px solid rgb(197, 197, 197) ;
+}
+
+.menu-item-details p{
+    margin: 0;
+    line-height: 13pt;
+}
+
+.price{
+    font-size: 14pt;
+    background-color: #96969690;
+    padding: 5px 8px;
+    line-height: 20pt;
 }
 
 .menu-item-form {
@@ -23,3 +63,97 @@
     margin-right: 10px; /* Optional: add some space between buttons */
   }
   
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    
+    /* padding: 20px; */
+}
+.header {
+    text-align: center;
+    /* margin-bottom: 20px; */
+    background-color: #e6e6e6;
+    padding-bottom: 15px;
+}
+.header img{
+    max-height: 200px;
+}
+.resta-name{
+    background-color: #535353;
+    color: #fff;
+}
+.restaurant-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.restaurant-info-content{
+    text-align: left;    
+    padding: 10px 20px;
+    color: #fff;
+    /* border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px; */
+    background-color: #717171;
+}
+.menu-item h3, .menu-item p {
+    margin: 10px;
+}
+.collapsible-content {
+    display: none;
+}
+.collapsible-button {
+    text-align: center;
+    cursor: pointer;
+    border: none;
+}
+.basic-info-btn{
+    /* border-radius: 5px; */
+    font-size: 14pt;
+    font-weight: bold;
+    /* border-top-left-radius: 5px;
+    border-top-right-radius: 5px; */
+    display: block;
+    width: 100%;
+    background-color: #535353;
+    color: #fff;
+    margin-bottom: 0;
+    border: none;
+}
+.basic-info-btn:hover, .basic-info-btn:active, .basic-info-btn:focus {
+    opacity: 0.7;
+    border: none;
+    outline: none;
+}
+.contact-info {
+    text-align: left;    
+    margin-top: 20px;
+    padding: 12px 20px;
+    color: #fff;
+    background-color: #535353;
+}
+
+
+.food-labels{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 10px;
+}
+
+.label-item {
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+
+.label-item img{
+    width: 40px;
+    height: 40px;
+}
+.label-icon {
+
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    object-fit: cover; /* Ensure image fits within the specified dimensions */
+}

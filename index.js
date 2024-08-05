@@ -11,7 +11,7 @@ const MongoStore = require("connect-mongo");
 const userRoutes = require("./routes/user_routes");
 const restaurantRoutes = require("./routes/restaurant_routes");
 const menuRoutes = require("./routes/menu_routes");
-const authMiddleware = require("./middleware/auth"); // must implement
+const authMiddleware = require("./middleware/auth"); // not using
 
 // Handlebars Config
 app.set("view engine", ".hbs");

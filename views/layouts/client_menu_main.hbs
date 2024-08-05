@@ -4,59 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{restaurant.resta_name}} Menu</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../public/styles/menu_styles.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            padding: 20px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .header img{
-            max-height: 200px;
-        }
-        .restaurant-info {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .menu-items {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .menu-item {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 10px;
-            width: calc(50% - 20px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .menu-item img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px 8px 0 0;
-        }
-        .menu-item h3, .menu-item p {
-            margin: 10px;
-        }
-        .collapsible-content {
-            display: none;
-        }
-        .collapsible-button {
-            margin: 10px;
-            text-align: center;
-            cursor: pointer;
-        }
-        .contact-info {
-            text-align: center;
-            margin-top: 20px;
-        }
+    body {
+        background-color: {{restaurant.bodyColor}};
+        color: {{restaurant.fontColor}};
+    }
+    .menu-header {
+        background-color: {{restaurant.headerColor}};
+    }
+    .menu-item{
+      background-color: {{restaurant.itemBackgroundColor}};
+    }
     </style>
+
 </head>
  <body>
 
@@ -65,6 +27,8 @@
 
 
     <footer class="text-center py-3">
+        powered by:
+        <img style="max-height: 40px;" src="../../public/images/QRMenu_Logo200px.png" alt="QR Menu Logo"> <br><br>
       <span>Ⓒ QRMenu 2024</span>
     </footer>
 

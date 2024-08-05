@@ -1,7 +1,7 @@
 
 
    <header class="header">
-        <h1>{{restaurant.resta_name}}</h1>
+        <h1 class="resta-name">{{restaurant.resta_name}}</h1>
         {{#if restaurant.resta_logo}}
         <img src="/uploads/{{restaurant.resta_logo}}" alt="{{restaurant.resta_name}}" class="restaurant-logo">
         {{/if}}
@@ -9,14 +9,14 @@
 
     <section class="restaurant-info">
         <div class="collapsible-button">
-            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#restaurantInfo" aria-expanded="false" aria-controls="restaurantInfo">
-                Basic Information
+            <button class="collapsible-button basic-info-btn" type="button" data-toggle="collapse" data-target="#restaurantInfo" aria-expanded="false" aria-controls="restaurantInfo">
+                About Us ▼
             </button>
         </div>
-        <div id="restaurantInfo" class="collapsible-content collapse">
-            <p>{{restaurant.resta_description}}</p>
-            <p>Location: {{restaurant.resta_location}}</p>
-            <p>Hours: {{restaurant.resta_hours}}</p>
+        <div id="restaurantInfo" class="collapsible-content collapse restaurant-info-content">
+            <strong> <em>{{restaurant.resta_description}}</em></strong><br>
+            <span><b>Location:</b> {{restaurant.resta_location}}</span>
+            <p><b>Hours:</b> {{restaurant.resta_hours}}</p>
         </div>
     </section>
 
@@ -25,19 +25,27 @@
         <div class="menu-item">
             <img src="/uploads/{{this.item_photo}}" alt="{{this.item_name}}">
             <div class="menu-item-details">
-                <h3>{{this.item_name}}</h3>
+                <h3 class="text-center">{{this.item_name}}</h3>
                 <p>{{this.item_description}}</p>
-                <p>Price: ${{this.item_price}}</p>
-                <p>Category: {{this.item_category}}</p>
-                <p>Labels: {{#each this.item_labels}} {{this}} {{/each}}</p>
+                <p><b>Category:</b> {{this.item_category}}</p>
+                <b><p class="price">Price: ${{this.item_price}}</p></b>
+                
+                <div class="food-labels"> 
+                    {{#each this.item_labels}}
+                        <span class="label-item">
+                            <img class="label-icon" src="{{getLabelIcon this}}" alt="{{this}} label" >
+                            {{this}}
+                        </span>
+                    {{/each}}
+                </div>
             </div>
         </div>
         {{/each}}
     </main>
 
     <div class="contact-info">
-        <p>Email: {{restaurant.resta_email}}</p>
-        <p>Phone: {{restaurant.resta_phone}}</p>
+        <span><b>Email:</b> {{restaurant.resta_email}}</span><br>
+        <span><b>Phone:</b> {{restaurant.resta_phone}}</span>
     </div>
 
 

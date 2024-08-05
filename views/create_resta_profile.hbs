@@ -1,51 +1,51 @@
 <div class="sidebar">
-    {{!-- <span id="userWelcome-create" class="user-welcome"></span> --}}
     <a href="/user_dashboard">User Dashboard</a>
-    <a href="#">Edit Account</a>
+    <a href="/edit_account">Edit Account</a>
     <a href="#">Delete Account</a>
     <a href="/logout">Logout</a>
-  </div>
-<main class="main-content">  
-<div class="container">
-
-  <h1>Create Restaurant Profile</h1>
-  <form action="/create_restaurant_profile" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-      <label for="resta_name">Restaurant Name:</label>
-      <input type="text" class="form-control" id="resta_name" name="resta_name" required>
-    </div>
-    {{!-- <div class="form-group">
-      <label for="resta_logo">Restaurant Logo URL:</label>
-      <input type="text" class="form-control" id="resta_logo" name="resta_logo">
-    </div> --}}
-    <div class="form-group">
-      <label for="restaLogo">Restaurant Logo</label>
-      <input type="file" class="form-control-file" id="restaLogo" name="resta_logo">
-    </div>
-
-    <div class="form-group">
-      <label for="restaDescription">Restaurant Description:</label>
-      <textarea class="form-control" id="restaDescription" name="resta_description" rows="3"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="restaLocation">Restaurant Location:</label>
-      <input type="text" class="form-control" id="restaLocation" name="resta_location" required>
-    </div>
-    <div class="form-group">
-      <label for="restaHours">Restaurant Hours:</label>
-      <input type="text" class="form-control" id="restaHours" name="resta_hours" required>
-    </div>
-    <div class="form-group">
-      <label for="restaEmail">Restaurant Email:</label>
-      <input type="email" class="form-control" id="restaEmail" name="resta_email">
-    </div>
-    <div class="form-group">
-      <label for="restaPhone">Restaurant Phone:</label>
-      <input type="text" class="form-control" id="restaPhone" name="resta_phone" placeholder="(123) 456-7890">
-    </div>
-    <button type="submit" class="btn btn-primary">Create Profile</button>
-  </form>
 </div>
+
+<main class="main-content">  
+  <div class="container">
+
+    <h1>Create Restaurant Profile</h1>
+    <form action="/create_restaurant_profile" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="resta_name">Restaurant Name:</label>
+        <input type="text" class="form-control" id="resta_name" name="resta_name" required>
+      </div>
+      {{!-- <div class="form-group">
+        <label for="resta_logo">Restaurant Logo URL:</label>
+        <input type="text" class="form-control" id="resta_logo" name="resta_logo">
+      </div> --}}
+      <div class="form-group">
+        <label for="restaLogo">Restaurant Logo</label>
+        <input type="file" class="form-control-file" id="restaLogo" name="resta_logo">
+      </div>
+
+      <div class="form-group">
+        <label for="restaDescription">Restaurant Description:</label>
+        <textarea class="form-control" id="restaDescription" name="resta_description" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="restaLocation">Restaurant Location:</label>
+        <input type="text" class="form-control" id="restaLocation" name="resta_location" required>
+      </div>
+      <div class="form-group">
+        <label for="restaHours">Restaurant Hours:</label>
+        <input type="text" class="form-control" id="restaHours" name="resta_hours" required>
+      </div>
+      <div class="form-group">
+        <label for="restaEmail">Restaurant Email:</label>
+        <input type="email" class="form-control" id="restaEmail" name="resta_email">
+      </div>
+      <div class="form-group">
+        <label for="restaPhone">Restaurant Phone:</label>
+        <input type="text" class="form-control" id="restaPhone" name="resta_phone" placeholder="123-456-7890">
+      </div>
+      <button type="submit" class="btn btn-primary">Create Profile</button>
+    </form>
+  </div>
 </main>
 
 <script>

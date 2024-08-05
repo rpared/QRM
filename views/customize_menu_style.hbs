@@ -1,7 +1,7 @@
 <div class="sidebar">
     <a href="/user_dashboard">User Dashboard</a>
     <a href="/restaurant/{{restaurant._id}}">Restaurant Profile</a>
-    <a href="#">Edit Account</a>
+    <a href="/edit_account">Edit Account</a>
     <a href="#">Delete Account</a>
     <a href="/logout">Logout</a>
 </div>
@@ -15,20 +15,30 @@
         <form action="/restaurant/{{restaurant._id}}/styles" method="post">
 
           <div>
-            <input type="color" id="headerColor" name="headerColor" value="#e66465" />
+            <input type="color" id="headerColor" name="headerColor" value="#e6e6e6" />
             <label for="headerColor">Header or top of the menu</label>
           </div><br>
 
           <div>
-            <input type="color" id="bodyColor" name="bodyColor" value="#f6b73c" />
-            <label for="bodyColor">Background of the restaurant menu</label>
+            <input type="color" id="bodyColor" name="bodyColor" value="#ffffff" />
+            <label for="bodyColor">Background of the menu</label>
           </div><br>
 
           <div>
-            <input type="color" id="fontColor" name="fontColor" value="#f6b73c" />
-            <label for="fontColor">Font color of the menu</label>
-            <span>Be sure to choose a color that contrasts with the background.</span>
-          </div><br>
+            <input type="color" id="fontColor" name="fontColor" value="#151515" />
+            <label for="fontColor">Font color</label>
+            <p>Be sure to choose a color that contrasts with the Background of the Menu and of Container Boxes.</p>
+          </div>
+          
+          
+          <div>
+            <input type="color" id="itemBackgroundColor" name="itemBackgroundColor" value="#ffffff" />
+            <label for="itemBackgroundColor">Item Container Box Background Color</label>
+            <p>Be sure to choose a color that contrasts with the background.</p>
+          </div>
+          
+          
+          <br>
 
           <button type="submit" class="btn btn-primary">Save Changes</button>
           <a href="/restaurant/{{restaurant._id}}"class="btn btn-secondary">Back to Manage Menu</a>

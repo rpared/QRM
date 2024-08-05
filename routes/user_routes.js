@@ -44,6 +44,78 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// GET route to display the edit user form
+router.get("/edit_account", (req, res) => {
+  
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+
+  const { _id, email, firstname, lastname } = req.session.user;
+
+  res.render("edit_account", {
+    title: "Edit Account",
+    _id,
+    email,
+    firstname,
+    lastname,
+    user: req.session.user,
+    userSession: true,
+
+  });
+  
+});
+
+// POST route to handle the edit user form submission
+router.post("/edit_account", async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+
+  const { _id, email, password, firstname, lastname } = req.body;
+  // const userId = req.session.user._id;
+  
+  try {
+    const updates = {
+      email,
+      firstname,
+      lastname,
+    };
+
+    // Only update the password if it's provided
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 2);
+      updates.password = hashedPassword;
+    }
+
+    // Find the user and update their information
+    const user = await User.findByIdAndUpdate(_id, updates, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    // Update session with new user data
+    req.session.user = user;
+
+    res.redirect("/user_dashboard");
+  } catch (error) {
+    console.log("Error updating user:", error);
+    res.status(400).render("edit_account", {
+      title: "Edit Account",
+      email,
+      firstname,
+      lastname,
+      message: "Error updating account. Please try again.",
+    });
+  }
+});
+
+
+
 // Route to log all users to console
 router.get("/users", async (req, res) => {
   try {

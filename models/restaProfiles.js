@@ -33,8 +33,24 @@ let restaprofilesSchema = mongoose.Schema({
   resta_phone: {
     type: String,
     default: null,
-    match: [/^\(\d{3}\) \d{3}-\d{4}$/, "Please enter a valid phone number"],
+    match: [/^\d{3}-\d{3}-\d{4}$|^\d{10}$/, "Please enter a valid phone number"],
   },
+  headerColor:{
+    type: String,
+    default: null,
+  },
+  bodyColor: {
+    type: String,
+    default: null,
+  },
+  fontColor:{
+    type: String,
+    default: null,
+  },
+  itemBackgroundColor:{
+    type: String,
+    default: null,
+  }
 });
 
 module.exports = mongoose.model("RestaProfile", restaprofilesSchema);

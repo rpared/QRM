@@ -23,10 +23,19 @@ router.get("/restaurant/:id/client_menu", async (req, res) => {
         const menuItems = await MenuItem.find({ resta_profile_id: restaurantId });
         console.log("Menu Items:", JSON.stringify(menuItems, null, 2)); // Log the menu items
 
+        // Define the label icons mapping
+        const labelIcons = {
+            vegan: "/images/vegan_label.png",
+            spicy: "/images/spicy_label.png",
+            "gluten-free": "/images/gluten_free_label.png", //Darn hyphen causes trouble!! 
+            vegetarian: "/images/vegetarian_label.png"
+        };
+
         res.render("client_menu/client_menu", {
             title: restaurant.resta_name,
             restaurant,
             menuItems,
+            labelIcons, // Pass the mapping to the template
             user: req.session.user,
             userSession: true,
             layout: 'client_menu_main' // Specify the layout for this route
