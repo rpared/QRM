@@ -1,5 +1,3 @@
-
-
    <header class="header">
         <h1 class="resta-name">{{restaurant.resta_name}}</h1>
         {{#if restaurant.resta_logo}}
@@ -23,7 +21,11 @@
     <main class="menu-items">
         {{#each menuItems}}
         <div class="menu-item">
-            <img src="/uploads/{{this.item_photo}}" alt="{{this.item_name}}">
+            {{!-- Old images in upload folder, no longer needed --}}
+            {{!-- <img src="/uploads/{{this.item_photo}}" alt="{{this.item_name}}"> --}}
+            {{#if this.item_photo_thumbnail.data}}
+                    <img src="/menu_item_image/{{this._id}}" alt="{{this.item_name}}">
+                    {{/if}}
             <div class="menu-item-details">
                 <h3 class="text-center">{{this.item_name}}</h3>
                 <p>{{this.item_description}}</p>

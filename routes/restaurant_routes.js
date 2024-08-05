@@ -1,5 +1,5 @@
 /* Routes for restaurant:
-create/update/delete restaurants
+create / update / delete / download QR Code / display client menu
 */
 
 const express = require("express");
@@ -15,13 +15,13 @@ const PORT = process.env.PORT || 3000;
 
 
 
-// Route to display Client Menu, the QR code menu
+// Route to display Client Menu, the QR code menu for Final Customers
 router.get("/restaurant/:id/client_menu", async (req, res) => {
     const restaurantId = req.params.id;
     try {
         const restaurant = await Restaurant.findById(restaurantId);
         const menuItems = await MenuItem.find({ resta_profile_id: restaurantId });
-        console.log("Menu Items:", JSON.stringify(menuItems, null, 2)); // Log the menu items
+        // console.log("Menu Items:", JSON.stringify(menuItems, null, 2)); // Log the menu items DO NOT run when theres image buffer!!
 
         // Define the label icons mapping
         const labelIcons = {
@@ -50,7 +50,7 @@ router.get("/restaurant/:id/client_menu", async (req, res) => {
     }
 });
 
-
+/*
 // Route to display restaurant menu - Attempt to sort by Category
 // router.get("/restaurant/:id/client_menu", async (req, res) => {
 //     const restaurantId = req.params.id;
@@ -97,7 +97,7 @@ router.get("/restaurant/:id/client_menu", async (req, res) => {
 //       res.status(500).send("Internal Server Error");
 //     }
 //   });
-
+*/
 
 // Generate QRcode for download
 router.get('/restaurant/:restaurantId/qrcode/download', async (req, res) => {
@@ -197,7 +197,7 @@ router.get("/restaurant/:id", async (req, res) => {
     try {
         const restaurant = await Restaurant.findById(restaurantId);
         const menuItems = await MenuItem.find({ resta_profile_id: restaurantId });
-        console.log("Menu Items:", JSON.stringify(menuItems, null, 2)); // Log the menu items
+        // console.log("Menu Items:", JSON.stringify(menuItems, null, 2)); // Log the menu items > This takes forever now with image buffer & thumbnails 
   
         res.render("restaurant_menu", {
             title: restaurant.resta_name,
@@ -215,9 +215,9 @@ router.get("/restaurant/:id", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
   });
-  
 
-  // API to fetch menu items for a specific restaurant profile --- The Previous Get route already fetches that stuff
+
+  // API to fetch menu items for a specific restaurant profile --- The Previous Get route already fetches this stuff!
   router.get("/api/restaurant/:id/menu_items", async (req, res) => {
     const restaurantId = req.params.id;
     try {
