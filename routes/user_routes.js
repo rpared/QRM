@@ -51,11 +51,11 @@ router.get("/edit_account", (req, res) => {
     return res.redirect("/login");
   }
 
-  const { _id, email, firstname, lastname } = req.session.user;
+  const { id, email, firstname, lastname } = req.session.user;
 
   res.render("edit_account", {
     title: "Edit Account",
-    _id,
+    id,
     email,
     firstname,
     lastname,
@@ -67,13 +67,14 @@ router.get("/edit_account", (req, res) => {
 });
 
 // POST route to handle the edit user form submission
-router.post("/edit_account", async (req, res) => {
+router.post("/edit_account/:id", async (req, res) => {
   if (!req.session.user) {
     return res.redirect("/login");
   }
 
-  const { _id, email, password, firstname, lastname } = req.body;
-  // const userId = req.session.user._id;
+  const { email, password, firstname, lastname } = req.body;
+  const userId = req.session.user.id;
+  
   
   try {
     const updates = {
@@ -89,7 +90,7 @@ router.post("/edit_account", async (req, res) => {
     }
 
     // Find the user and update their information
-    const user = await User.findByIdAndUpdate(_id, updates, {
+    const user = await User.findByIdAndUpdate(userId, updates, {
       new: true,
       runValidators: true,
     });
@@ -98,8 +99,15 @@ router.post("/edit_account", async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    // Update session with new user data
-    req.session.user = user;
+    // Update session with new user data, this is causing trouble!
+    // req.session.user = user;
+
+    req.session.user = {
+      id: user.id,
+      email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+    };
 
     res.redirect("/user_dashboard");
   } catch (error) {
@@ -114,9 +122,39 @@ router.post("/edit_account", async (req, res) => {
   }
 });
 
+// Delete Account - API route to actually delete the account it is not a POST, it is done with an href!!
+router.get("/api/delete_account/:id", async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+
+  const userId = req.session.user.id; // Get the user ID from the session
+  
+  try {
+    // Delete the user
+    const result = await User.findByIdAndDelete(userId);
+    
+    if (!result) {
+      return res.status(404).send("User not found");
+    }
+
+    // Destroy the session and redirect to the home page or login
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Error destroying session:", err);
+        return res.status(500).send("Error deleting account. Please try again.");
+      }
+      res.redirect("/"); //Redirect to home
+    });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).send("Error deleting account. Please try again.");
+  }
+});
 
 
-// Route to log all users to console
+
+// Route to log all users to console > Useful to track!
 router.get("/users", async (req, res) => {
   try {
     const users = await User.find({});
@@ -176,6 +214,7 @@ router.get("/users", async (req, res) => {
           id: user._id,
           email: user.email,
           firstname: user.firstname,
+          lastname: user.lastname, // Set the lastname if available
           resta_profile_id: restaurant ? restaurant._id : null, // Set resta_profile_id if available
         };
 

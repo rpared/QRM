@@ -2,14 +2,13 @@
     <a href="/user_dashboard">User Dashboard</a>
     <a href="/restaurant/{{restaurant._id}}">Restaurant Profile</a>
     <a href="/edit_account">Edit Account</a>
-    <a href="#">Delete Account</a>
     <a href="/logout">Logout</a>
 </div>
 <main class="main-content">
     <div class="container">
         <h1>Customize your client menu</h1>
         
-        <p>These settings will display in the "Client Menu", not in the "Manage Menu"</p>
+        <p>These settings will display in the "Client Menu", not in the "Manage Menu".</p>
 
         <h3>Choose your restaurant colors:</h3><br>
         <form action="/restaurant/{{restaurant._id}}/styles" method="post">
@@ -27,14 +26,14 @@
           <div>
             <input type="color" id="fontColor" name="fontColor" value="#151515" />
             <label for="fontColor">Font color</label>
-            <p>Be sure to choose a color that contrasts with the Background of the Menu and of Container Boxes.</p>
+            <p><small>Be sure to choose a color that contrasts with the Background of the Menu and of Container Boxes.</small></p>
           </div>
           
           
           <div>
             <input type="color" id="itemBackgroundColor" name="itemBackgroundColor" value="#ffffff" />
             <label for="itemBackgroundColor">Item Container Box Background Color</label>
-            <p>Be sure to choose a color that contrasts with the background.</p>
+            <p><small>Each Menu item is inside the Item Container Box.</small></p>
           </div>
           
           
