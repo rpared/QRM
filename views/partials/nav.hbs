@@ -28,12 +28,19 @@
         </div>
     </nav>
     
-    <!-- JavaScript script to fetch user data and manage authentication -->
+    <!-- JavaScript script to fetch user data and manage authentication 
+    Need a better solution -->
     
-<script>
-  const userSession = {{userSession}}? 'Logged in':  'Not logged in ';
+      {{!-- const userSession = {{userSession}}? 'Logged in':  'Not logged in ';
   console.log(userSession);
-    if (userSession == 'Logged in' ){
+    if (userSession == 'Logged in' ){ --}}...
+
+<script>
+
+
+    const userSession = {{userSession}};
+  console.log(userSession);
+    if (userSession){
     document.addEventListener("DOMContentLoaded", () => {
       
          // Authentication button functionality
@@ -61,7 +68,7 @@
               navbar.classList.add('fixed-top');
 
     });
- }
+    }
 </script>
 
 
