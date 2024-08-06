@@ -1,8 +1,7 @@
 <div class="sidebar">
     <a href="/user_dashboard">User Dashboard</a>
-    <a href="/restaurant/{{restaurant._id}}">Restaurant Profile</a>
+    <a href="/restaurant/{{restaurant._id}}">Manage Menu</a>
     <a href="/edit_account">Edit Account</a>
-    <a href="/logout">Logout</a>
 </div>
 <main class="main-content">
     <div class="container">
@@ -13,25 +12,26 @@
         <h3>Choose your restaurant colors:</h3><br>
         <form action="/restaurant/{{restaurant._id}}/styles" method="post">
 
+
           <div>
-            <input type="color" id="headerColor" name="headerColor" value="#e6e6e6" />
+            <input type="color" id="headerColor" name="headerColor" value="{{#if restaurant.headerColor}}{{restaurant.headerColor}}{{else}}#e6e6e6{{/if}}" />
             <label for="headerColor">Header or top of the menu</label>
           </div><br>
 
           <div>
-            <input type="color" id="bodyColor" name="bodyColor" value="#ffffff" />
+            <input type="color" id="bodyColor" name="bodyColor" value="{{#if restaurant.bodyColor}}{{restaurant.bodyColor}}{{else}}#f8f9fa{{/if}}" />
             <label for="bodyColor">Background of the menu</label>
           </div><br>
 
           <div>
-            <input type="color" id="fontColor" name="fontColor" value="#151515" />
+            <input type="color" id="fontColor" name="fontColor" value="{{#if restaurant.fontColor}}{{restaurant.fontColor}}{{else}}#111111{{/if}}" />
             <label for="fontColor">Font color</label>
             <p><small>Be sure to choose a color that contrasts with the Background of the Menu and of Container Boxes.</small></p>
           </div>
           
           
           <div>
-            <input type="color" id="itemBackgroundColor" name="itemBackgroundColor" value="#ffffff" />
+            <input type="color" id="itemBackgroundColor" name="itemBackgroundColor" value="{{#if restaurant.itemBackgroundColor}}{{restaurant.itemBackgroundColor}}{{else}}#f9f9f9{{/if}}" />
             <label for="itemBackgroundColor">Item Container Box Background Color</label>
             <p><small>Each Menu item is inside the Item Container Box.</small></p>
           </div>
@@ -43,5 +43,27 @@
           <a href="/restaurant/{{restaurant._id}}"class="btn btn-secondary">Back to Manage Menu</a>
           
         </form>
+           <!-- Reset Colors Button -->
+        <button id="resetButton" class="btn btn-danger" style="margin-top: 20px;">Reset to Default Colors</button>
+        
     </div>
 </main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const defaultColors = {
+            headerColor: "#e6e6e6",
+            bodyColor: "#f8f9fa",
+            fontColor: "#000000",
+            itemBackgroundColor: "#f9f9f9"
+        };
+
+        document.getElementById('resetButton').addEventListener('click', function() {
+            // Reset the form fields to default values
+            document.getElementById('headerColor').value = defaultColors.headerColor;
+            document.getElementById('bodyColor').value = defaultColors.bodyColor;
+            document.getElementById('fontColor').value = defaultColors.fontColor;
+            document.getElementById('itemBackgroundColor').value = defaultColors.itemBackgroundColor;
+        });
+    });
+</script>

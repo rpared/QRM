@@ -11,22 +11,24 @@ const upload = multer({ storage: storage });
 const sharp = require('sharp'); //To get thumbnails
 
 // Add Items Route Cloud with Thumbnails - Get
-router.get("/add_menu_items", (req, res) => {
+router.get("/restaurant/:restaurantId/add-menu-item", (req, res) => {
     if (req.session.user) {
         res.render("add_menu_items", {
             title: "Add Items to your Menu",
             message: "To create different Menus create different Restaurant Profiles.",
             user: req.session.user,
             userSession: true,
+            resta_profile_id: req.params.restaurantId,
         });
     } else {
         res.redirect("/login");
     }
 });
 // Add Items Route Cloud with Thumbnails - Post
-router.post("/add_menu_item", upload.single('item_photo'), async (req, res) => {
+router.post("/restaurant/:restaurantId/add-menu-item", upload.single('item_photo'), async (req, res) => {
     const { item_name, item_category, item_description, item_labels, item_price } = req.body;
     const { file } = req;
+    const restaurantId = req.params.restaurantId;
 
     try {
         let item_photo = { data: null, contentType: null };
@@ -48,7 +50,8 @@ router.post("/add_menu_item", upload.single('item_photo'), async (req, res) => {
             };
         }
 
-        const resta_profile_id = req.session.user.resta_profile_id; // Get restaurant profile ID from session
+        // const resta_profile_id = req.session.user.resta_profile_id; // Get restaurant profile ID from session
+        const resta_profile_id = restaurantId;
         
         // Avoid unnecessary logging
         // console.log("Received data:", req.body);

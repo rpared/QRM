@@ -10,8 +10,24 @@ let restaprofilesSchema = mongoose.Schema({
     required: true,
   },
   resta_logo: {
-    type: String,
-    default: null,
+    data: {
+      type: Buffer,
+      default: null,
+    },
+    contentType: {
+      type: String,
+      default: null,
+    },
+  },
+  resta_logo_thumbnail: {
+      data: {
+        type: Buffer,
+        default: null,
+      },
+      contentType: {
+        type: String,
+        default: null,
+      },
   },
   resta_description: {
     type: String,

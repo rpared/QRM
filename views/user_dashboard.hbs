@@ -2,7 +2,7 @@
     <a href="/create_restaurant_profile">Create Restaurant</a>
     <a href="/edit_account">Edit Account</a>
     <a href="#" data-toggle="modal" data-target="#account-{{user.id}}">Delete Account</a>
-    <a href="/logout">Logout</a>
+    <a id="logout-btn" href="#" >Logout</a>
 </div>
 <!-- Modal To delete account -->
                     <div class="modal fade" id="account-{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -37,7 +37,10 @@
                 <div class="resta-container">
                     
                         <h2>{{this.resta_name}}</h2>
-                        <img src="uploads/{{this.resta_logo}}" alt="{{this.resta_name}} Logo" style="max-width: 200px; max-height:100px">
+                        {{#if this.resta_logo_thumbnail.data}}
+                        <img src="/resta_logo/{{this._id}}" alt="{{this.resta_name}}" style="max-width: 200px; max-height:100px">
+                        {{/if}}
+                        {{!-- <img src="uploads/{{this.resta_logo_thumbnail}}" alt="{{this.resta_name}} Logo" style="max-width: 200px; max-height:100px"> --}}
                         <p><strong>Description:</strong> {{this.resta_description}}</p>
                         <p><strong>Location:</strong> {{this.resta_location}}</p>
                         <p><strong>Hours:</strong> {{this.resta_hours}}</p>
@@ -59,7 +62,7 @@
 
                     {{/if}}
                     
-                      <form action="/add_menu_items" method="GET" class="resta-form" >
+                      <form action="/restaurant/{{this._id}}/add-menu-item" method="GET" class="resta-form" >
                         <button type="submit" class="btn btn-secondary">Add Menu Items</button>
                       </form>
 
@@ -113,9 +116,27 @@
   </main>
 
 
-  {{!-- <script>
-    
-    const userWelcome = document.getElementById("userWelcome-dashboard");
-    userWelcome.textContent = `Hello, {{user.email}}`;
-
-  </script> --}}
+  <script>
+    //Its best to hanlde this with get requests ugh
+     document.addEventListener("DOMContentLoaded", () => {
+        const logoutBtn = document.querySelector('#logout-btn');
+        logoutBtn.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent the default anchor behavior
+            fetch("/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include", // Include cookies for the session
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/login"; // Redirect to login page after logout
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+  </script>

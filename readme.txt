@@ -7,8 +7,8 @@ Structure
 
 models: (schemas)
     - users
-    - profiles
-    - menu_items
+    - restProfiles
+    - menuItem
 
 controller:
     - index.js
@@ -17,37 +17,58 @@ middleware:
     - multer
     - express-validator
     - session-validator
+    - sharp
+    - qrcode
 
 routes:
-- Main Router
+- index:
     - Home 
-    - Create User
+    - About
+    - Pricing
     - User Login
-- User Router
+    - Logout
+
+- user_routes
     - User Home
     - Edit User
-    - Create Profile
-    - Display Profile
-    - Edit Profile
-- Menu Router
+    - Register
+    - Edit Account
+    - Delete Account
+    
+- restaurant_routes
+    - Create restaurants
+    - Edit restaurants
+    - Delete restaurants
+    - Manage Menu
+    - View Client Menu (Final Customer Menu)
+    - Download QR Code
+
+- Menu_routes
     - Add Menu Items
     - Edit Menu Items
+    - Customize Menu Styles
+    - Delete Menu Items
 
 views:
     - layouts:
         - main.hbs
+        - client_menu.hbs
+    - partials:
         - navbar.hbs
     - create_user.hbs
     - login.hbs
-    - Users:
-        - user_main.hbs
-        - create_resta_profile.hbs
-        - edit_rest_profile.hbs
-        - add_menu_items.hbs
+    
+    - user_dashboard.hbs
+    - create_resta_profile.hbs
+    - edit_rest_profile.hbs
+    - add_menu_items.hbs
+    client_menu:
+        - client_menu.hbs
 
 public:
     - images
     - styles
+
 uploads:
     - restaurant_logos
     - menu_photos

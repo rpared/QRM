@@ -1,13 +1,12 @@
 <div class="sidebar">
     <a href="/user_dashboard">User Dashboard</a>
-    <a href="/restaurant/{{restaurant._id}}">Restaurant Profile</a>
+    <a href="/restaurant/{{resta_profile_id}}">Restaurant Profile</a>
     <a href="/edit_account">Edit Account</a>
-    <a href="/logout">Logout</a>
 </div>
 <main class="main-content">
     <div class="container">
         <h1>Add Menu Item</h1>
-        <form id="menuItemForm" action="/add_menu_item" method="post" enctype="multipart/form-data">
+        <form id="menuItemForm" action="/restaurant/{{resta_profile_id}}/add-menu-item" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="itemCategory">Item Category</label>
                 <select class="form-control form-control-sm" id="itemCategory" name="item_category" required>

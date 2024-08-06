@@ -1,7 +1,8 @@
-   <header class="header">
+   <header class="header menu-header">
         <h1 class="resta-name">{{restaurant.resta_name}}</h1>
-        {{#if restaurant.resta_logo}}
-        <img src="/uploads/{{restaurant.resta_logo}}" alt="{{restaurant.resta_name}}" class="restaurant-logo">
+
+        {{#if restaurant.resta_logo_thumbnail.data}}
+            <img src="/resta_logo/{{restaurant._id}}" alt="{{restaurant.resta_name}}" class="restaurant-logo">
         {{/if}}
     </header>
 

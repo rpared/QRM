@@ -76,9 +76,11 @@ app.use(menuRoutes);
 
 // Home
 app.get("/", (req, res) => {
+  
   res.render("home", {
     title: "Home Page",
     message: "Welcome, select an option from the navigation menu.",
+    userSession: (req.session.user)? true : false,
   });
 });
 
@@ -87,6 +89,7 @@ app.get("/about", (req, res) => {
   res.render("about", {
     title: "About",
     message: "Developers",
+    userSession: (req.session.user)? true : false,
   });
 });
 
@@ -95,6 +98,7 @@ app.get("/pricing", (req, res) => {
   res.render("pricing", {
     title: "Pricing",
     message: "Our plans",
+    userSession: (req.session.user)? true : false,
   });
 });
 

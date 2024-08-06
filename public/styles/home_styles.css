@@ -19,6 +19,15 @@
     border: none;
 }
 
+.btn-danger{
+    background-color: #ee5d3d;
+    border: 1px solid #ee5d3d;
+}
+.btn-danger:hover, .btn-danger:active{
+    background-color: #eb4621;
+    border: 1px solid #eb4621;
+}
+
 .hero-section {
     /* width: 100%; */
     min-height: 400px;

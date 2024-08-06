@@ -31,9 +31,9 @@
     <!-- JavaScript script to fetch user data and manage authentication -->
     
 <script>
-  const userSession = {{userSession}};
+  const userSession = {{userSession}}? 'Logged in':  'Not logged in ';
   console.log(userSession);
-    if (userSession){
+    if (userSession == 'Logged in' ){
     document.addEventListener("DOMContentLoaded", () => {
       
          // Authentication button functionality

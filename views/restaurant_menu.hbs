@@ -2,7 +2,6 @@
     <a href="/user_dashboard">User Dashboard</a>
     <a href="/restaurant/{{restaurant._id}}/styles">Customize Style</a>
     <a href="/edit_account">Edit Account</a>
-    <a href="/logout">Logout</a>
 </div>
 <main class="main-content">
     <div class="container">
@@ -55,7 +54,7 @@
                 </div>
             {{/each}}
         </div>
-        <form action="/add_menu_items" method="GET">
+        <form action="/restaurant/{{restaurant._id}}/add-menu-item" method="GET">
             <button type="submit" class="btn btn-primary d-block">Add Menu Items</button>
         </form>
         <!-- Customize Style Button -->
