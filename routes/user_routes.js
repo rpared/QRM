@@ -4,8 +4,6 @@ const User = require("../models/users");
 const Restaurant = require("../models/restaProfiles");
 const MenuItem = require("../models/menuItem");
 const bcrypt = require("bcrypt");
-// const path = require("path");
-// const upload = require("../middleware/multer");
 
 // Register Get
 router.get("/register", (req, res) => {
@@ -127,6 +125,18 @@ router.get("/api/delete_account/:id", async (req, res) => {
   const userId = req.session.user.id; // Get the user ID from the session
 
   try {
+    // Find and delete all restaurants associated with the user
+    const restaurants = await Restaurant.find({ user_id: userId });
+
+    // Collect restaurant IDs
+    const restaurantIds = restaurants.map(restaurant => restaurant._id);
+    
+    // Delete all menu items associated with these restaurants
+    await MenuItem.deleteMany({ resta_profile_id: { $in: restaurantIds } });
+
+    // Delete all restaurants
+    await Restaurant.deleteMany({ user_id: userId });
+     
     // Delete the user
     const result = await User.findByIdAndDelete(userId);
 
@@ -142,13 +152,14 @@ router.get("/api/delete_account/:id", async (req, res) => {
           .status(500)
           .send("Error deleting account. Please try again.");
       }
-      res.redirect("/"); //Redirect to home
+      res.redirect("/"); // Redirect to home
     });
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.error("Error deleting account:", error);
     res.status(500).send("Error deleting account. Please try again.");
   }
 });
+
 
 // Route to log all users to console > Useful to track!
 router.get("/users", async (req, res) => {

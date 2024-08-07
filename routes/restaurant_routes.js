@@ -4,12 +4,8 @@ create / update / delete / download QR Code / display client menu
 
 const express = require("express");
 const router = express.Router();
-const User = require("../models/users");
 const Restaurant = require("../models/restaProfiles");
 const MenuItem = require("../models/menuItem");
-// const bcrypt = require("bcrypt");
-// const path = require("path");
-// const upload = require("../middleware/multer");
 const QRCode = require('qrcode');
 const PORT = process.env.PORT || 3000;
 const multer = require("multer");
@@ -19,7 +15,7 @@ const sharp = require('sharp'); //To get thumbnails
 
 
 
-// Route to display Client Menu, the QR code menu for Final Customers
+// Route to View Client Menu, the QR code menu for Final Customers
 router.get("/restaurant/:id/client_menu", async (req, res) => {
     const restaurantId = req.params.id;
     try {
@@ -110,7 +106,7 @@ router.get('/restaurant/:restaurantId/qrcode/download', async (req, res) => {
       const opts = {
         errorCorrectionLevel: 'H',
         type: 'image/jpeg',
-        quality: 0.3,
+        quality: 0.8,
         margin: 1,
       };
       const url = `http://localhost:${PORT}/restaurant/${restaurantId}/client_menu`;
@@ -124,7 +120,6 @@ router.get('/restaurant/:restaurantId/qrcode/download', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-  
   
 // Route to Get restaurant profile
 router.get("/create_restaurant_profile", (req, res) => {
@@ -223,58 +218,6 @@ router.get('/resta_logo/:id', async (req, res) => {
   }
 });
 
-  // Route to handle the creation of a restaurant profile ORIGINAL
-  // router.post("/create_restaurant_profile", upload.single('resta_logo'), async (req, res) => {
-  //   if (req.session.user) {
-  //     const {
-  //       resta_name,
-  //       resta_description,
-  //       resta_location,
-  //       resta_hours,
-  //       resta_email,
-  //       resta_phone
-  //     } = req.body; // Extract all fields
-  
-  //     // Extract file information
-  //     const resta_logo = req.file ? req.file.filename : null;
-  
-  //     console.log("Received data:", req.body);
-  //     console.log("File information:", req.file);
-  
-  //     try {
-  //       const restaurant = new Restaurant({
-  //         user_id: req.session.user.id,
-  //         resta_name,
-  //         resta_logo,
-  //         resta_description,
-  //         resta_location,
-  //         resta_hours,
-  //         resta_email,
-  //         resta_phone,
-  //       });
-  
-  //       await restaurant.save();
-  
-  //       // Set resta_profile_id in session
-  //       req.session.user.resta_profile_id = restaurant._id;
-  
-  
-  //       res.redirect("/user_dashboard");
-  //     } catch (error) {
-  //       console.error("Error creating restaurant profile:", error);
-  //       res.status(500).render("create_resta_profile", {
-  //         title: "Create Restaurant Profile",
-  //         message: "Error creating restaurant profile. Please try again.",
-  //         user: req.session.user,
-  //         userSession: true,
-  //       });
-  //     }
-  //   } else {
-  //     res.redirect("/login");
-  //   }
-  // });
-
-
   // Route to Manage restaurant menu
 router.get("/restaurant/:id", async (req, res) => {
     const restaurantId = req.params.id;
@@ -300,7 +243,6 @@ router.get("/restaurant/:id", async (req, res) => {
     }
   });
 
-
   // API to fetch menu items for a specific restaurant profile --- The Previous Get route already fetches this stuff!
   router.get("/api/restaurant/:id/menu_items", async (req, res) => {
     const restaurantId = req.params.id;
@@ -313,7 +255,6 @@ router.get("/restaurant/:id", async (req, res) => {
     }
   });
   
-
 
   //Edit restaurant details like name, logo, hours
     // Route to display the form for editing 
@@ -338,7 +279,7 @@ router.get("/restaurant/:id", async (req, res) => {
       }
     });
   
-  // Route to handle the update of restaurant details - ORiginal
+  // Route to handle the update of restaurant details
   router.post("/restaurant/:id/edit", upload.single('resta_logo'), async (req, res) => {
     const restaurantId = req.params.id;
     const {
@@ -398,55 +339,15 @@ router.get("/restaurant/:id", async (req, res) => {
     }
   });
 
-    // Route to handle the update of restaurant details - ORiginal
-    // router.post("/restaurant/:id/edit", upload.single('resta_logo'), async (req, res) => {
-    //   const restaurantId = req.params.id;
-    //   const {
-    //     resta_name,
-    //     resta_description,
-    //     resta_location,
-    //     resta_hours,
-    //     resta_email,
-    //     resta_phone,
-    //   } = req.body;
-    //   const resta_logo = req.file ? req.file.filename : null;
-  
-    //   try {
-    //     // Find the restaurant by its ID and update its details
-    //     const restaurant = await Restaurant.findById(restaurantId);
-  
-    //     if (!restaurant) {
-    //       return res.status(404).send("Restaurant not found");
-    //     }
-  
-    //     restaurant.resta_name = resta_name;
-    //     restaurant.resta_description = resta_description;
-    //     restaurant.resta_location = resta_location;
-    //     restaurant.resta_hours = resta_hours;
-    //     restaurant.resta_email = resta_email;
-    //     restaurant.resta_phone = resta_phone;
-  
-    //     // Only update the logo if a new one is uploaded
-    //     if (resta_logo) {
-    //       restaurant.resta_logo = resta_logo;
-    //     }
-  
-    //     await restaurant.save();
-    //     res.redirect(`/user_dashboard`);
-    //   } catch (error) {
-    //     console.error("Error updating restaurant details:", error);
-    //     res.status(500).send("Internal Server Error");
-    //   }
-    // });
-
-
-
-
-  // Delete the Restaurant
+  // Delete the Restaurant (cascading deletion)
     router.get("/api/restaurant/delete/:id", async (req, res) => {
         const restaurantId = req.params.id;
         try {
-        const result = await Restaurant.findByIdAndDelete(restaurantId );
+        
+        // Delete all menu items associated with the restaurant
+        await MenuItem.deleteMany({ resta_profile_id: { $in: restaurantId } });
+
+        await Restaurant.findByIdAndDelete(restaurantId);
     
         } catch (error) {
             console.error("Error deleting restaurant:", error);

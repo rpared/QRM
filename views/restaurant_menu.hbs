@@ -1,7 +1,9 @@
 <div class="sidebar">
     <a href="/user_dashboard">User Dashboard</a>
+    <a href="/restaurant/{{restaurant._id}}/add-menu-item">Add Menu Items</a>
     <a href="/restaurant/{{restaurant._id}}/styles">Customize Style</a>
-    <a href="/edit_account">Edit Account</a>
+    <a href="/restaurant/{{restaurant._id}}/client_menu" target="_blank">View Client Menu</a>
+    <a href="/restaurant/{{restaurant._id}}/qrcode/download">Get QR Code</a>
 </div>
 <main class="main-content">
     <div class="container">
@@ -61,5 +63,6 @@
         <form action="/restaurant/{{restaurant._id}}/styles" method="GET" class="menu-item-form">
             <button type="submit" class="btn btn-secondary">Customize Menu Style</button>
         </form> 
+
     </div>
 </main>

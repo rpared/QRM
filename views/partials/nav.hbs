@@ -51,6 +51,7 @@
         const priceButton = document.getElementById("priceButton");
         const logo = document.getElementById("logo");
         const navbar = document.querySelector(".navbar");
+        const heroSection = document.querySelector(".hero-section");
 
         authButton.textContent = "Logout";
               authButton.addEventListener("click", function () {
@@ -66,6 +67,8 @@
               priceButton.style.display = "none";
               logo.href ="/user_dashboard"
               navbar.classList.add('fixed-top');
+              if(heroSection){
+              heroSection.style.marginTop = "70px";}
 
     });
     }

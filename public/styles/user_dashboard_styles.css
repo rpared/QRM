@@ -56,6 +56,10 @@
     /* min-width: 40%; */
     flex: 0 0 47.6%; 
 }
+.resta-container p{
+    margin-bottom: 4px;
+    padding-left: 8px;
+}
 .container {
     background: #fff;
     padding: 20px;
@@ -78,4 +82,25 @@
 .resta-form {
     display: inline-block;
     margin-right: 10px;
+  }
+
+  .btn{
+    min-height: 36px;
+  }
+  .resta-header{
+    display: grid;
+    grid-template-columns: 1.4fr 1.2fr;
+    border-bottom: 1px solid #c1c1c1;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+  }
+  .resta-header div{
+    justify-self: end;
+  }
+  .resta-header-btn{
+    display: block;
+    margin-bottom: 4px;
+    max-height:fit-content;
+    border: none;
+    max-width: 160px;
   }

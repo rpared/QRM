@@ -19,10 +19,6 @@ let menuItemSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  // item_photo: {
-  //   type: String,
-  //   default: null,
-  // },
   item_photo: {
       data: {
         type: Buffer,
