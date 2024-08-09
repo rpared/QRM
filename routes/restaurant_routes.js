@@ -16,32 +16,77 @@ const sharp = require('sharp'); //To get thumbnails
 
 
 // Route to View Client Menu, the QR code menu for Final Customers
+// router.get("/restaurant/:id/client_menu", async (req, res) => {
+//     const restaurantId = req.params.id;
+//     try {
+//         const restaurant = await Restaurant.findById(restaurantId);
+//         const menuItems = await MenuItem.find({ resta_profile_id: restaurantId });
+//         // console.log("Menu Items:", JSON.stringify(menuItems, null, 2)); // Log the menu items DO NOT run when theres image buffer!!
+
+//         // Define the label icons mapping
+//         const labelIcons = {
+//             vegan: "/images/vegan_label.png",
+//             spicy: "/images/spicy_label.png",
+//             "gluten-free": "/images/gluten_free_label.png", //Darn hyphen causes trouble!! 
+//             vegetarian: "/images/vegetarian_label.png"
+//         };
+
+//         res.render("client_menu/client_menu", {
+//             title: restaurant.resta_name,
+//             restaurant,
+//             menuItems,
+//             labelIcons, // Pass the mapping to the template
+//             user: req.session.user,
+//             userSession: true,
+//             layout: 'client_menu_main' // Specify the layout for this route
+//         });
+        
+//         // Set resta_profile_id in session
+//         req.session.user.resta_profile_id = restaurant._id;
+
+//     } catch (error) {
+//         console.error("Error fetching restaurant menu:", error);
+//         res.status(500).send("Internal Server Error");
+//     }
+// });
+
+
+// Route to display restaurant menu - Attempt to sort by Category
 router.get("/restaurant/:id/client_menu", async (req, res) => {
     const restaurantId = req.params.id;
     try {
         const restaurant = await Restaurant.findById(restaurantId);
-        const menuItems = await MenuItem.find({ resta_profile_id: restaurantId });
-        // console.log("Menu Items:", JSON.stringify(menuItems, null, 2)); // Log the menu items DO NOT run when theres image buffer!!
+        let menuItems = await MenuItem.find({ resta_profile_id: restaurantId });
 
-        // Define the label icons mapping
+        // Sort menu items by category
+        const categoryOrder = ['specials', 'breakfast', 'brunch', 'entrees', 'main', 'desserts', 'beverages', 'hot-beverages'];
+        menuItems.sort((a, b) => {
+            return categoryOrder.indexOf(a.item_category) - categoryOrder.indexOf(b.item_category);
+        });
+
+        // Group items by category
+        const groupedMenuItems = categoryOrder.reduce((acc, category) => {
+            acc[category] = menuItems.filter(item => item.item_category === category);
+            return acc;
+        }, {});
+
         const labelIcons = {
             vegan: "/images/vegan_label.png",
             spicy: "/images/spicy_label.png",
-            "gluten-free": "/images/gluten_free_label.png", //Darn hyphen causes trouble!! 
+            "gluten-free": "/images/gluten_free_label.png",
             vegetarian: "/images/vegetarian_label.png"
         };
 
         res.render("client_menu/client_menu", {
             title: restaurant.resta_name,
             restaurant,
-            menuItems,
-            labelIcons, // Pass the mapping to the template
+            groupedMenuItems, // Pass grouped items to the template
+            labelIcons,
             user: req.session.user,
             userSession: true,
-            layout: 'client_menu_main' // Specify the layout for this route
+            layout: 'client_menu_main'
         });
-        
-        // Set resta_profile_id in session
+
         req.session.user.resta_profile_id = restaurant._id;
 
     } catch (error) {
@@ -50,54 +95,6 @@ router.get("/restaurant/:id/client_menu", async (req, res) => {
     }
 });
 
-/*
-// Route to display restaurant menu - Attempt to sort by Category
-// router.get("/restaurant/:id/client_menu", async (req, res) => {
-//     const restaurantId = req.params.id;
-//     try {
-//       const restaurant = await Restaurant.findById(restaurantId);
-//       const menuItems = await MenuItem.find({ resta_profile_id: restaurantId });
-  
-//       // Define category order
-//       const categoryOrder = [
-//         null, // For items with no category
-//         "specials",
-//         "entrees",
-//         "breakfast",
-//         "brunch",
-//         "main",
-//         "desserts",
-//         "beverages",
-//         "hot-beverages"
-//       ];
-  
-//       // Group menu items by category
-//       const groupedItems = categoryOrder.reduce((acc, category) => {
-//         acc[category] = menuItems.filter(item => item.item_category === category);
-//         return acc;
-//       }, {});
-  
-//       // Sort items with no category first
-//       groupedItems[null] = menuItems.filter(item => !item.item_category);
-  
-//       res.render("client_menu/client_menu", {
-//         title: restaurant.resta_name,
-//         restaurant,
-//         groupedItems,
-//         user: req.session.user,
-//         userSession: true,
-//         layout: 'client_menu_main' // Specifing a different layout for this route
-//       });
-  
-//       // Set resta_profile_id in session
-//       req.session.user.resta_profile_id = restaurant._id;
-  
-//     } catch (error) {
-//       console.error("Error fetching restaurant menu:", error);
-//       res.status(500).send("Internal Server Error");
-//     }
-//   });
-*/
 
 // Generate QRcode for download
 router.get('/restaurant/:restaurantId/qrcode/download', async (req, res) => {
@@ -243,7 +240,7 @@ router.get("/restaurant/:id", async (req, res) => {
     }
   });
 
-  // API to fetch menu items for a specific restaurant profile --- The Previous Get route already fetches this stuff!
+  // API to fetch menu items for a specific restaurant profile --- The Previous Get route already fetches this stuff, but this is a fancy API one!
   router.get("/api/restaurant/:id/menu_items", async (req, res) => {
     const restaurantId = req.params.id;
     try {

@@ -1,28 +1,48 @@
 
-.menu-items {
+.menu-category, .menu-items {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Default to 4 columns */
     gap: 16px; /* Space between the items */
-    margin: 20px 12px;
+    margin: 0 18px 26px;
 }
 
 @media (max-width: 1200px) {
-    .menu-items {
+    .menu-category, .menu-items {
         grid-template-columns: repeat(3, 1fr); /* 3 columns for large screens */
     }
 }
 
 @media (max-width: 900px) {
-    .menu-items {
+    .menu-category, .menu-items {
         grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
     }
 }
 
 @media (max-width: 600px) {
-    .menu-items {
+    .menu-category, .menu-items {
         grid-template-columns: 1fr; /* 1 column for small screens */
     }
 }
+
+.menu-items-heading{
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.menu-items-heading h3{
+    text-transform: capitalize;
+    margin-left: 18px;
+}
+
+.menu-items-heading::after{
+    content: ''; /* This is a line after the h2 spaning through the block */
+    flex-grow: 1;
+    height: 2px; 
+    background-color: #ababab; 
+    margin: 0 10px 0 18px; 
+}
+
 
 .menu-item {
     border: 1px solid #ccc;
@@ -131,6 +151,10 @@ body {
     background-color: #535353;
 }
 
+footer{
+    color: #222;
+    background-color: #fff;;
+}
 
 .food-labels{
     display: flex;

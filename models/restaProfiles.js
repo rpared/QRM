@@ -66,6 +66,10 @@ let restaprofilesSchema = mongoose.Schema({
   itemBackgroundColor:{
     type: String,
     default: null,
+  },
+  restaDisplayName:{
+    type: Boolean,
+    default: false,
   }
 });
 

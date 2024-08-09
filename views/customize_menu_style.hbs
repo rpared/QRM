@@ -10,10 +10,15 @@
         
         <p>These settings will display in the "Client Menu", not in the "Manage Menu".</p>
 
-        <h3>Choose your restaurant colors:</h3><br>
         <form action="/restaurant/{{restaurant._id}}/styles" method="post">
+        {{!-- <h3>Display Name of Restaurant</h3><br> --}}
+        <div> {{!-- Handlebars with 2 helper functions, ugh!!! --}}
+            <input type="checkbox" id="restaDisplayName" name="restaDisplayName" {{#if (eq restaurant.restaDisplayName true) }}checked{{/if}} />
+            <label for="restaDisplayName">Display Name of Restaurant</label>
+            <p><small>If your logo is readable you may want to uncheck this box.</small></p>
+        </div><br>
 
-
+        <h3>Choose your restaurant colors:</h3><br>
           <div>
             <input type="color" id="headerColor" name="headerColor" value="{{#if restaurant.headerColor}}{{restaurant.headerColor}}{{else}}#e6e6e6{{/if}}" />
             <label for="headerColor">Header or top of the menu</label>

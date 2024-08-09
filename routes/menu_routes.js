@@ -3,7 +3,6 @@ const router = express.Router();
 const Restaurant = require("../models/restaProfiles");
 const MenuItem = require("../models/menuItem");
 const path = require("path");
-// const upload = require("../middleware/multer");
 
 const multer = require("multer");
 const storage = multer.memoryStorage(); //RAM
@@ -78,7 +77,7 @@ router.post("/restaurant/:restaurantId/add-menu-item", upload.single('item_photo
     }
 });
 
-//Original Add menu item
+//Original Add menu item (local multer storage)
 // router.post("/add_menu_item", upload.single('item_photo'), async (req, res) => {
 //     const { item_name, 
 //         item_category, 
@@ -186,44 +185,6 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
     }
 });
 
-
-  // Update Menu Item Post - Original
-//   router.post("/update_menu_item", upload.single('item_photo'), async (req, res) => {
-//     const { item_id, item_name, item_category, item_description, item_labels, item_price } = req.body;
-//     const item_photo = req.file ? req.file.filename : null;
-//     const resta_profile_id = req.session.user.resta_profile_id;
-
-//     console.log("Received data:", req.body);
-//     console.log("Updating item with ID:", item_id);
-//     console.log("Restaurant profile ID:", resta_profile_id);
-
-//     try {
-//         // Find the item by its ID and restaurant profile ID
-//         const item = await MenuItem.findOne({ item_id, resta_profile_id });
-
-//         if (!item) {
-//             console.log("Menu item not found with ID:", item_id, "and restaurant profile ID:", resta_profile_id);
-//             return res.status(404).send("Menu item not found");
-//         }
-
-//         // Update the item's details
-//         item.item_name = item_name;
-//         item.item_category = item_category;
-//         item.item_description = item_description;
-//         if (item_photo) {
-//             item.item_photo = item_photo;
-//         }
-//         item.item_labels = Array.isArray(item_labels) ? item_labels : [item_labels];
-//         item.item_price = item_price;
-
-//         await item.save();
-//         res.redirect(`/restaurant/${resta_profile_id}`); // Redirect to a page where the updated item is shown
-//     } catch (error) {
-//         console.error("Error updating menu item:", error);
-//         res.status(500).send("Internal Server Error");
-//     }
-// });
-
   
   // Delete Menu Item
   router.post("/restaurant/:restaurantId/menu/:menuItemId/delete", async (req, res) => {
@@ -238,7 +199,7 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
       res.redirect(`/restaurant/${restaurantId}`);
     });
 
-  // Route to Display the menu items thumbnails
+  // Route to Display the menu item thumbnails
   router.get('/menu_item_image/:id', async (req, res) => {
     try {
       const menuItem = await MenuItem.findById(req.params.id);
@@ -279,14 +240,15 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
 // POST
         router.post("/restaurant/:restaurantId/styles", async (req, res) => {
             const { restaurantId } = req.params;
-            const { headerColor, bodyColor, fontColor, itemBackgroundColor } = req.body;
+            const { headerColor, bodyColor, fontColor, itemBackgroundColor, restaDisplayName } = req.body;
             try {
             const restaurant = await Restaurant.findById(restaurantId);
             if (!restaurant) {
                 return res.status(404).send("Restaurant not found");
             }
-            
+
             // Update the restaurant's style settings
+            restaurant.restaDisplayName = restaDisplayName === 'on'; // Converting restaDisplayName to boolean, default to false if undefined, its gotta be the inverse
             restaurant.headerColor = headerColor;
             restaurant.bodyColor = bodyColor;
             restaurant.fontColor = fontColor;

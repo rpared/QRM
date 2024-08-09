@@ -21,6 +21,10 @@ const handlebarsHelpers = {
 
       getLabelIcon: function(label) {
       return labelIcons[label] || ''; // Return empty string if no icon found
+      },
+
+      or: function (a, b) {
+        return a || b;
       }
     // Add other helpers here, hope I dont need more ugh
   };
