@@ -1,0 +1,73 @@
+<header class="header menu-header">
+    {{#if (eq restaurant.restaDisplayName true)}}
+        <h1 class="resta-name">{{restaurant.resta_name}}</h1>
+    {{/if}}
+    {{#if restaurant.resta_logo_thumbnail.data}}
+        <img src="/resta_logo/{{restaurant._id}}" alt="{{restaurant.resta_name}}" class="restaurant-logo">
+    {{/if}}
+</header>
+
+<section class="restaurant-info">
+    <div class="collapsible-button">
+        <button class="collapsible-button basic-info-btn" type="button" data-toggle="collapse" data-target="#restaurantInfo" aria-expanded="false" aria-controls="restaurantInfo">
+            About Us ▼
+        </button>
+    </div>
+    <div id="restaurantInfo" class="collapsible-content collapse restaurant-info-content">
+        <strong> <em>{{restaurant.resta_description}}</em></strong><br>
+        <span><b>Location:</b> {{restaurant.resta_location}}</span>
+        <p><b>Hours:</b> {{restaurant.resta_hours}}</p>
+    </div>
+</section>
+
+<main>
+    {{#each groupedMenuItems}}
+        {{#if this.length}}
+        <div class="menu-items-heading" >
+            <h3>{{@key}}</h3>
+        </div>
+            <section class="menu-category">
+                
+                {{#each this}}
+                <div class="menu-item">
+                    {{#if this.item_photo_thumbnail.data}}
+                        <img src="/menu_item_image/{{this._id}}" alt="{{this.item_name}}">
+                    {{/if}}
+                    <div class="menu-item-details">
+                        <h3 class="text-center">{{this.item_name}}</h3>
+                        <p>{{this.item_description}}</p>
+                        {{!-- <p><b>Category:</b> {{this.item_category}}</p> --}}
+                        <b><p class="price">Price: ${{this.item_price}}</p></b>
+                        <div class="food-labels">
+                            {{#each this.item_labels}}
+                                <span class="label-item">
+                                    <img class="label-icon" src="{{getLabelIcon this}}" alt="{{this}} label">
+                                    {{this}}
+                                </span>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </section>
+        {{/if}}
+    {{/each}}
+</main>
+
+<div class="contact-info">
+    <span><b>Email:</b> {{restaurant.resta_email}}</span><br>
+    <span><b>Phone:</b> {{restaurant.resta_phone}}</span>
+</div>
+
+<script>
+    let infoContent = document.querySelector(".collapsible-content");
+    let infoBtn = document.querySelector(".collapsible-button");
+
+    infoBtn.addEventListener("click", function() {
+        if (infoContent.style.display === "block") {
+            infoContent.style.display = "none";
+        } else {
+            infoContent.style.display = "block";
+        }
+    });
+</script>

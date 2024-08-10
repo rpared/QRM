@@ -1,10 +1,31 @@
  <div class="sidebar">
-    {{!-- <span id="userWelcome-dashboard" class="user-welcome"></span> --}}
     <a href="/create_restaurant_profile">Create Restaurant</a>
-    <a href="#">Edit Account</a>
-    <a href="#">Delete Account</a>
-    <a href="#">Logout</a>
-  </div>
+    <a href="/edit_account">Edit Account</a>
+    <a href="#" data-toggle="modal" data-target="#account-{{user.id}}">Delete Account</a>
+    <a id="logout-btn" href="#" >Logout</a>
+</div>
+<!-- Modal To delete account -->
+                    <div class="modal fade" id="account-{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete account </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            This action will delete your account, all your restaurants and menus <b>{{user.firstname}}</b>. Are you sure?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                          <a href="/api/delete_account/{{user.id}}"  class="btn btn-danger">Delete Account</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
 
  <main class="main-content">
     <h1>User Dashboard</h1>
@@ -14,19 +35,64 @@
     {{#if restaurants.length}}
       {{#each restaurants}}
                 <div class="resta-container">
-                    <a href="/restaurant/{{this._id}}">
-                        <h2>{{this.resta_name}}</h2>
-                        <img src="{{this.resta_logo}}" alt="{{this.resta_name}} Logo" style="max-width: 200px; max-height:100px">
+                        
+                          <h2>{{this.resta_name}}</h2>
+                          <div class="resta-header">
+                          {{#if this.resta_logo_thumbnail.data}}
+                          <img src="/resta_logo/{{this._id}}" alt="{{this.resta_name}}" style="max-width: 250px; max-height:120px">
+                          {{/if}}
+                          {{#if (lookup ../menuItemsByRestaurant this._id)}}
+                          <div>
+                          <a href="/restaurant/{{this._id}}" class="btn btn-primary resta-header-btn">Manage Menu</a>
+                          <a href="/restaurant/{{this._id}}/client_menu" target="_blank" class="btn btn-secondary resta-header-btn">View Client Menu</a>
+                          <a href="/restaurant/{{this._id}}/qrcode/download" class="btn btn-secondary resta-header-btn">Get Qr Code</a>
+                          </div>
+                          {{/if}}
+                        </div>
+                        {{!-- <img src="uploads/{{this.resta_logo_thumbnail}}" alt="{{this.resta_name}} Logo" style="max-width: 200px; max-height:100px"> --}}
                         <p><strong>Description:</strong> {{this.resta_description}}</p>
                         <p><strong>Location:</strong> {{this.resta_location}}</p>
                         <p><strong>Hours:</strong> {{this.resta_hours}}</p>
                         <p><strong>Email:</strong> {{this.resta_email}}</p>
                         <p><strong>Phone:</strong> {{this.resta_phone}}</p>
-                    </a>
-                    <form action="/add_menu_items" method="GET">
-                        <button type="submit" class="btn btn-primary">Add Menu Items</button>
-                    </form>
+                    
+                    
+                      <form action="/restaurant/{{this._id}}/add-menu-item" method="GET" class="resta-form" >
+                        <button type="submit" class="btn btn-secondary">Add Menu Items</button>
+                      </form>
+
+                      <form action="/restaurant/{{this._id}}/edit" method="GET" class="resta-form">
+                        <button type="submit" class="btn btn-primary">Edit Restaurant Info</button>
+                      </form>
+                        
+                      
+                    <!-- Delete Button -->
+                       <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#resta-{{this._id}}">
+                      Delete
+                    </button>
                 </div>
+                <!-- Modal -->
+                    <div class="modal fade" id="resta-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete restaurant </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            This action will delete <b>{{this.resta_name}}</b>. Are you sure?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                          <a href="api/restaurant/delete/{{this._id}}"  class="btn btn-danger">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 {{/each}}
     </div>
     {{else}}
@@ -45,9 +111,27 @@
   </main>
 
 
-  {{!-- <script>
-    
-    const userWelcome = document.getElementById("userWelcome-dashboard");
-    userWelcome.textContent = `Hello, {{user.email}}`;
-
-  </script> --}}
+  <script>
+    //Its best to hanlde this with get requests ugh
+     document.addEventListener("DOMContentLoaded", () => {
+        const logoutBtn = document.querySelector('#logout-btn');
+        logoutBtn.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent the default anchor behavior
+            fetch("/logout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include", // Include cookies for the session
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/login"; // Redirect to login page after logout
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+  </script>

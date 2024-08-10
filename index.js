@@ -5,11 +5,12 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const path = require("path");
 const exphbs = require("express-handlebars");
+const handlebarsHelpers = require("./helpers/handlebars-helpers");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const userRoutes = require("./routes/user_routes");
+const restaurantRoutes = require("./routes/restaurant_routes");
 const menuRoutes = require("./routes/menu_routes");
-const authMiddleware = require("./middleware/auth"); // must implement
 
 // Handlebars Config
 app.set("view engine", ".hbs");
@@ -20,13 +21,17 @@ app.engine(
     extname: ".hbs",
     defaultLayout: "main",
     layoutsDir: path.join(__dirname, "views", "layouts"),
-    partialsDir: path.join(__dirname, "views", "layouts"),
+    partialsDir: path.join(__dirname, "views", "partials"),
     runtimeOptions: {
       allowProtoPropertiesByDefault: true,
       allowProtoMethodsByDefault: true,
     },
+    helpers: handlebarsHelpers,
   })
 );
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, "public")));
 
 // Sessions, a guest session is started automatically
 app.use(
@@ -64,8 +69,9 @@ app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 // ROUTES
 
-// Use the user routes
+// Use the 3 routers
 app.use(userRoutes);
+app.use(restaurantRoutes);
 app.use(menuRoutes);
 
 // Home
@@ -73,6 +79,8 @@ app.get("/", (req, res) => {
   res.render("home", {
     title: "Home Page",
     message: "Welcome, select an option from the navigation menu.",
+    user: req.session.user,
+    userSession: req.session.user ? true : false,
   });
 });
 
@@ -81,6 +89,7 @@ app.get("/about", (req, res) => {
   res.render("about", {
     title: "About",
     message: "Developers",
+    userSession: req.session.user ? true : false,
   });
 });
 
@@ -89,6 +98,7 @@ app.get("/pricing", (req, res) => {
   res.render("pricing", {
     title: "Pricing",
     message: "Our plans",
+    userSession: req.session.user ? true : false,
   });
 });
 

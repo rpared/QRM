@@ -1,14 +1,13 @@
 <div class="sidebar">
     <a href="/user_dashboard">User Dashboard</a>
-    <a href="#">Restaurant Profile</a>
-    <a href="#">Edit Account</a>
-    <a href="#">Delete Account</a>
-    <a href="#">Logout</a>
+    <a href="/restaurant/{{resta_profile_id}}">Manage Menu</a>
+    <a href="/restaurant/{{resta_profile_id}}/client_menu" target="_blank">View Client Menu</a>
+    <a href="/restaurant/{{resta_profile_id}}/qrcode/download">Get QR Code</a>
 </div>
 <main class="main-content">
     <div class="container">
         <h1>Add Menu Item</h1>
-        <form id="menuItemForm" action="/add_menu_item" method="post" enctype="multipart/form-data">
+        <form id="menuItemForm" action="/restaurant/{{resta_profile_id}}/add-menu-item" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="itemCategory">Item Category</label>
                 <select class="form-control form-control-sm" id="itemCategory" name="item_category" required>
@@ -22,7 +21,7 @@
                     <option value="desserts">Desserts</option>
                     <option value="hot-beverages">Hot Beverages</option>
                 </select>
-                <span>If you don't classify your item, it will be displayed at the top of the menu sorted by input order. Perhaps select "Specials" if you are unsure.</span>
+                <span>Items will be displayed sorted by category and input order. Perhaps select "Specials" if you are unsure, this category will feature on top.</span>
                 <div class="invalid-feedback" id="itemCategoryError"></div>
             </div>
 
@@ -35,6 +34,7 @@
             <div class="form-group">
                 <label for="itemPhoto">Item Photo</label>
                 <input type="file" class="form-control-file" id="itemPhoto" name="item_photo">
+                <span>Recommended size: 1024px x 768px / Aspect Ratio: 4:3. Tips: include generous margins, use perspective and avoid vertical formats.</span>
                 <div class="invalid-feedback" id="itemPhotoError"></div>
             </div>
 
