@@ -96,30 +96,45 @@ router.get("/restaurant/:id/client_menu", async (req, res) => {
     }
 });
 
+// Generate QRcode for download New
+router.get('/restaurant/:restaurantId/qrcode/download/:format', async (req, res) => {
+  const { restaurantId, format } = req.params; // Get format from URL parameters
 
-// Generate QRcode for download
-router.get('/restaurant/:restaurantId/qrcode/download', async (req, res) => {
-    const { restaurantId } = req.params;
-    try {
-      const opts = {
-        errorCorrectionLevel: 'H',
-        type: 'image/jpeg',
-        quality: 0.8,
-        margin: 1,
-      };
+  try {
       const url = `http://localhost:${PORT}/restaurant/${restaurantId}/client_menu`;
-      const qrCodeBuffer = await QRCode.toBuffer(url, opts);
-  
-      res.setHeader('Content-Disposition', 'attachment; filename="qrcode.jpg"');
-      res.setHeader('Content-Type', 'image/jpeg');
-      res.send(qrCodeBuffer);
-    } catch (error) {
+
+      // Default to PNG if no format is specified or an invalid format is given
+      let opts = {
+          errorCorrectionLevel: 'H',
+          margin: 1,
+      };
+      let contentType = 'image/png';
+      let fileName = 'qrcode.png';
+      let qrCodeData;
+
+      if (format === 'svg') {
+          // SVG format options
+          opts.type = 'svg';
+          contentType = 'image/svg+xml';
+          fileName = 'qrcode.svg';
+          qrCodeData = await QRCode.toString(url, opts); // Use toString for SVG format
+      } else {
+          // PNG format options
+          opts.type = 'png';
+          qrCodeData = await QRCode.toBuffer(url, opts); // Use toBuffer for PNG format
+      }
+
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      res.setHeader('Content-Type', contentType);
+      res.send(qrCodeData);
+
+  } catch (error) {
       console.error('Error generating QR code:', error);
       res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
+  }
+});
   
-// Route to Get restaurant profile
+// Route to Get restaurant profile creation
 router.get("/create_restaurant_profile", (req, res) => {
     if (req.session.user) {
       res.render("create_resta_profile", {

@@ -22,11 +22,13 @@
     background-color: #ee5d3d;
     color: white;
 }
+
 .main-content {
     margin-left: 200px; /* Same as the width of the sidebar */
     margin-top: 70px;
     padding: 20px;
 }
+
 .user-welcome {
     color: #fff;
     padding: 10px;
@@ -104,3 +106,77 @@
     border: none;
     max-width: 160px;
   }
+
+  /* QR Download Pop Up */
+  #qrFormatContainer {
+    display: none; /* Initially hidden */
+    position: fixed; /* Positioned relative to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(40, 40, 40, 0.65); /* Adjusted for better visibility */
+    z-index: 10;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+}
+
+#qrFormatPopup {
+    position: relative; 
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Slightly larger shadow */
+    text-align: center; /* Center-align text */
+    max-width: 90%; /* Responsive width */
+    width: 400px; /* Fixed width */
+}
+
+#qrFormatPopup a {
+    display: inline-block;
+    margin: 5px; /* Space between buttons */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px; /* Rounded corners */
+}
+
+#qrFormatPopup a:hover {
+    background-color: #0056b3;
+}
+#closeBtn {
+    position: absolute; /* Position it absolutely within the popup */
+    top: 4px;
+    right: 10px; 
+    border: none;
+    background-color: transparent;
+    font-size: 18pt;
+    cursor: pointer; 
+    color: #333; 
+
+}
+#closeBtn:hover {
+    color: #ee5d3d;
+}
+  
+  @media (max-width: 550px) {
+    .sidebar {
+        position: relative;
+        height: fit-content;
+        width: 100%;
+        padding-top: 10px;
+        z-index: 1;
+    }
+    .main-content {
+        margin-left: 0px;
+        padding: 10px;
+    }
+    .resta-container, .container{
+        padding: 10px;
+        margin-left: 2px;
+    }
+    .resta-group-container{
+        gap: 0;
+        padding: 4px;
+    }
+}

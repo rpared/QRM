@@ -2,7 +2,7 @@
     <a href="/user_dashboard">User Dashboard</a>
     <a href="/restaurant/{{resta_profile_id}}">Manage Menu</a>
     <a href="/restaurant/{{resta_profile_id}}/client_menu" target="_blank">View Client Menu</a>
-    <a href="/restaurant/{{resta_profile_id}}/qrcode/download">Get QR Code</a>
+    <a href="/restaurant/{{resta_profile_id}}/qrcode/download" class="qrBtn">Get QR Code</a>
 </div>
 <main class="main-content">
     <div class="container">
@@ -75,6 +75,18 @@
         </form>
     </div>
 </main>
+{{!-- Pop up with QR code download options --}}
+  <div id="qrFormatContainer">
+      <div id="qrFormatPopup" >
+        <button id="closeBtn">x</button>
+        <h2>Choose QR Code Format</h2>
+        <p>Png is for monitor display. Svg is for printing.</p>
+        <a href="/restaurant/{{user.resta_profile_id}}/qrcode/download/png" id="qrPngBtn" class="btn btn-secondary resta-header-btn">PNG</a>
+        <a href="/restaurant/{{user.resta_profile_id}}/qrcode/download/svg" id="qrSvgBtn" class="btn btn-secondary resta-header-btn">SVG</a>
+      </div>
+  </div>
+{{!-- This is the script for the Pop up with QR code download options --}}
+<script src="/scripts/qrPopUp.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const veganCheckbox = document.getElementById("vegan");

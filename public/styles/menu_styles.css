@@ -18,7 +18,7 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 550px) {
     .menu-category, .menu-items {
         grid-template-columns: 1fr; /* 1 column for small screens */
     }

@@ -45,7 +45,7 @@
                           <div>
                           <a href="/restaurant/{{this._id}}" class="btn btn-primary resta-header-btn">Manage Menu</a>
                           <a href="/restaurant/{{this._id}}/client_menu" target="_blank" class="btn btn-secondary resta-header-btn">View Client Menu</a>
-                          <a href="/restaurant/{{this._id}}/qrcode/download" class="btn btn-secondary resta-header-btn">Get Qr Code</a>
+                          <a href="/restaurant/{{this._id}}/qrcode/download/png" class="btn btn-secondary resta-header-btn qrBtn">Get Qr Code</a>
                           </div>
                           {{/if}}
                         </div>
@@ -109,12 +109,22 @@
     {{/if}}
 
   </main>
-
-
+  {{!-- Pop up with QR code download options --}}
+  <div id="qrFormatContainer">
+      <div id="qrFormatPopup" >
+        <button id="closeBtn">x</button>
+        <h2>Choose QR Code Format</h2>
+        <p>Png is for monitor display. Svg is for printing.</p>
+        <a href="/restaurant/{{user.resta_profile_id}}/qrcode/download/png" id="qrPngBtn" class="btn btn-secondary resta-header-btn">PNG</a>
+        <a href="/restaurant/{{user.resta_profile_id}}/qrcode/download/svg" id="qrSvgBtn" class="btn btn-secondary resta-header-btn">SVG</a>
+      </div>
+  </div>
+  <script src="/scripts/qrPopUp.js"></script>
   <script>
     //Its best to hanlde this with get requests ugh
      document.addEventListener("DOMContentLoaded", () => {
         const logoutBtn = document.querySelector('#logout-btn');
+
         logoutBtn.addEventListener("click", function (event) {
             event.preventDefault(); // Prevent the default anchor behavior
             fetch("/logout", {
@@ -133,5 +143,6 @@
             })
             .catch(error => console.error('Error:', error));
         });
+
     });
   </script>
