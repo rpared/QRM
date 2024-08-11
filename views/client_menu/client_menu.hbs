@@ -20,39 +20,69 @@
     </div>
 </section>
 
-<main>
-    {{#each groupedMenuItems}}
-        {{#if this.length}}
-        <div class="menu-items-heading" >
-            <h3>{{@key}}</h3>
-        </div>
-            <section class="menu-category">
-                
-                {{#each this}}
-                <div class="menu-item">
-                    {{#if this.item_photo_thumbnail.data}}
-                        <img src="/menu_item_image/{{this._id}}" alt="{{this.item_name}}">
-                    {{/if}}
-                    <div class="menu-item-details">
-                        <h3 class="text-center">{{this.item_name}}</h3>
-                        <p>{{this.item_description}}</p>
-                        {{!-- <p><b>Category:</b> {{this.item_category}}</p> --}}
-                        <b><p class="price">Price: ${{this.item_price}}</p></b>
-                        <div class="food-labels">
-                            {{#each this.item_labels}}
-                                <span class="label-item">
-                                    <img class="label-icon" src="{{getLabelIcon this}}" alt="{{this}} label">
-                                    {{this}}
-                                </span>
-                            {{/each}}
+{{!-- By default menu items are sorted by category --}}
+{{#if (eq restaurant.sortByCategory true)}}
+    <main>
+        {{#each groupedMenuItems}}
+            {{#if this.length}}
+            <div class="menu-items-heading" >
+                <h3>{{@key}}</h3>
+            </div>
+                <section class="menu-category">
+                    
+                    {{#each this}}
+                    <div class="menu-item">
+                        {{#if this.item_photo_thumbnail.data}}
+                            <img src="/menu_item_image/{{this._id}}" alt="{{this.item_name}}">
+                        {{/if}}
+                        <div class="menu-item-details">
+                            <h3 class="text-center">{{this.item_name}}</h3>
+                            <p>{{this.item_description}}</p>
+                            {{!-- <p><b>Category:</b> {{this.item_category}}</p> --}}
+                            <b><p class="price">Price: ${{this.item_price}}</p></b>
+                            <div class="food-labels">
+                                {{#each this.item_labels}}
+                                    <span class="label-item">
+                                        <img class="label-icon" src="{{getLabelIcon this}}" alt="{{this}} label">
+                                        {{this}}
+                                    </span>
+                                {{/each}}
+                            </div>
                         </div>
                     </div>
+                    {{/each}}
+                </section>
+            {{/if}}
+        {{/each}}
+    </main>
+{{else}}
+{{!-- If the category sorting is unchecked... --}}
+    <main class="menu-items">
+        {{#each menuItems}}
+        <div class="menu-item">
+            {{!-- <img src="/uploads/{{this.item_photo}}" alt="{{this.item_name}}"> --}}
+            {{#if this.item_photo_thumbnail.data}}
+                    <img src="/menu_item_image/{{this._id}}" alt="{{this.item_name}}">
+                    {{/if}}
+            <div class="menu-item-details">
+                <h3 class="text-center">{{this.item_name}}</h3>
+                <p>{{this.item_description}}</p>
+                {{!-- <p><b>Category:</b> {{this.item_category}}</p> --}}
+                <b><p class="price">Price: ${{this.item_price}}</p></b>
+                
+                <div class="food-labels"> 
+                    {{#each this.item_labels}}
+                        <span class="label-item">
+                            <img class="label-icon" src="{{getLabelIcon this}}" alt="{{this}} label" >
+                            {{this}}
+                        </span>
+                    {{/each}}
                 </div>
-                {{/each}}
-            </section>
-        {{/if}}
-    {{/each}}
-</main>
+            </div>
+        </div>
+        {{/each}}
+    </main>
+{{/if}}
 
 <div class="contact-info">
     <span><b>Email:</b> {{restaurant.resta_email}}</span><br>

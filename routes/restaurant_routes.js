@@ -15,7 +15,7 @@ const sharp = require('sharp'); //To get thumbnails
 
 
 
-// Route to View Client Menu, the QR code menu for Final Customers
+// Route to View Client Menu, the QR code menu for Final Customers (original simple version)
 // router.get("/restaurant/:id/client_menu", async (req, res) => {
 //     const restaurantId = req.params.id;
 //     try {
@@ -51,7 +51,7 @@ const sharp = require('sharp'); //To get thumbnails
 // });
 
 
-// Route to display restaurant menu - Attempt to sort by Category
+// Route to View Client Menu - the QR code menu for Final Customers Improved Sorted by Category version
 router.get("/restaurant/:id/client_menu", async (req, res) => {
     const restaurantId = req.params.id;
     try {
@@ -81,6 +81,7 @@ router.get("/restaurant/:id/client_menu", async (req, res) => {
             title: restaurant.resta_name,
             restaurant,
             groupedMenuItems, // Pass grouped items to the template
+            menuItems, // This is just the item with no category groupipng
             labelIcons,
             user: req.session.user,
             userSession: true,
