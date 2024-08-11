@@ -240,7 +240,7 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
 // POST
         router.post("/restaurant/:restaurantId/styles", async (req, res) => {
             const { restaurantId } = req.params;
-            const { headerColor, bodyColor, fontColor, itemBackgroundColor, restaDisplayName } = req.body;
+            const { headerColor, bodyColor, fontColor, itemBackgroundColor, restaDisplayName, sortByCategory } = req.body;
             try {
             const restaurant = await Restaurant.findById(restaurantId);
             if (!restaurant) {
@@ -249,6 +249,7 @@ router.get("/restaurant/:restaurantId/menu/:menuItemId/edit", async (req, res) =
 
             // Update the restaurant's style settings
             restaurant.restaDisplayName = restaDisplayName === 'on'; // Converting restaDisplayName to boolean, default to false if undefined, its gotta be the inverse
+            restaurant.sortByCategory = sortByCategory === 'on'; // Convert to boolean
             restaurant.headerColor = headerColor;
             restaurant.bodyColor = bodyColor;
             restaurant.fontColor = fontColor;

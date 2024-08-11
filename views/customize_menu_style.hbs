@@ -18,6 +18,13 @@
             <p><small>If your logo is readable you may want to uncheck this box.</small></p>
         </div><br>
 
+        <!-- Checkbox for sorting categories -->
+    <div>
+        <input type="checkbox" id="sortByCategory" name="sortByCategory" {{#if (eq restaurant.sortByCategory true)}}checked{{/if}} />
+        <label for="sortByCategory">Category Headings</label>
+        <p><small>Uncheck this box to stop listing items under Category headings. Items will still be ordered by category, but not separated.</small></p>
+    </div><br>
+
         <h3>Choose your restaurant colors:</h3><br>
           <div>
             <input type="color" id="headerColor" name="headerColor" value="{{#if restaurant.headerColor}}{{restaurant.headerColor}}{{else}}#e6e6e6{{/if}}" />

@@ -1,20 +1,23 @@
 QR Menu
 A digital menu generating app that creates html responsive menus for restaurants and generates qr codes linked to them.
+Allows restaurants to have online menus and edit them on the fly, and no need for printing them.
+The QR code can be handed to their customers.
 
-Mongo DBDatabase handled through mongoose.
-
-middleware and libraries:
+Middleware and libraries:
     - multer
     - express-validator
     - session-validator
     - mongoose
+    - mongostore
     - bcrypt
     - sharp
     - qrcode
-
+    - bootstrap
+    - popperjs
+    - jquery
 
 Template Engine:
-    - Handlebars
+    - Handlebars (with helpers)
 
 
 Structure:

@@ -70,6 +70,10 @@ let restaprofilesSchema = mongoose.Schema({
   restaDisplayName:{
     type: Boolean,
     default: false,
+  },
+  sortByCategory:{
+    type: Boolean,
+    default: true,
   }
 });
 
