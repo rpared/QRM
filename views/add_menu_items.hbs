@@ -76,15 +76,16 @@
     </div>
 </main>
 {{!-- Pop up with QR code download options --}}
-  <div id="qrFormatContainer">
+    <div id="qrFormatContainer">
       <div id="qrFormatPopup" >
         <button id="closeBtn">x</button>
-        <h2>Choose QR Code Format</h2>
+        <img width="160" height="auto" src="/api/restaurant/{{user.resta_profile_id}}/qrcode/download/" alt="QR Code Preview">
+        <h2>Choose download format</h2>
         <p>Png is for monitor display. Svg is for printing.</p>
         <a href="/restaurant/{{user.resta_profile_id}}/qrcode/download/png" id="qrPngBtn" class="btn btn-secondary resta-header-btn">PNG</a>
         <a href="/restaurant/{{user.resta_profile_id}}/qrcode/download/svg" id="qrSvgBtn" class="btn btn-secondary resta-header-btn">SVG</a>
       </div>
-  </div>
+    </div>
 {{!-- This is the script for the Pop up with QR code download options --}}
 <script src="/scripts/qrPopUp.js"></script>
 <script>

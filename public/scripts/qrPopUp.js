@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const qrBtn = document.querySelector(".qrBtn");
     const closeBtn = document.querySelector("#closeBtn");
     const popup = document.getElementById("qrFormatContainer");
+
     qrBtn.addEventListener("click", function(event){
     event.preventDefault(); // Prevent the default anchor behavior
     popup.style.display = "flex"; // Show the popup

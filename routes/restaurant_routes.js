@@ -14,43 +14,6 @@ const upload = multer({ storage: storage });
 const sharp = require('sharp'); //To get thumbnails
 
 
-
-// Route to View Client Menu, the QR code menu for Final Customers (original simple version)
-// router.get("/restaurant/:id/client_menu", async (req, res) => {
-//     const restaurantId = req.params.id;
-//     try {
-//         const restaurant = await Restaurant.findById(restaurantId);
-//         const menuItems = await MenuItem.find({ resta_profile_id: restaurantId });
-//         // console.log("Menu Items:", JSON.stringify(menuItems, null, 2)); // Log the menu items DO NOT run when theres image buffer!!
-
-//         // Define the label icons mapping
-//         const labelIcons = {
-//             vegan: "/images/vegan_label.png",
-//             spicy: "/images/spicy_label.png",
-//             "gluten-free": "/images/gluten_free_label.png", //Darn hyphen causes trouble!! 
-//             vegetarian: "/images/vegetarian_label.png"
-//         };
-
-//         res.render("client_menu/client_menu", {
-//             title: restaurant.resta_name,
-//             restaurant,
-//             menuItems,
-//             labelIcons, // Pass the mapping to the template
-//             user: req.session.user,
-//             userSession: true,
-//             layout: 'client_menu_main' // Specify the layout for this route
-//         });
-        
-//         // Set resta_profile_id in session
-//         req.session.user.resta_profile_id = restaurant._id;
-
-//     } catch (error) {
-//         console.error("Error fetching restaurant menu:", error);
-//         res.status(500).send("Internal Server Error");
-//     }
-// });
-
-
 // Route to View Client Menu - the QR code menu for Final Customers Improved Sorted by Category version
 router.get("/restaurant/:id/client_menu", async (req, res) => {
     const restaurantId = req.params.id;
@@ -133,6 +96,35 @@ router.get('/restaurant/:restaurantId/qrcode/download/:format', async (req, res)
       res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// Generate QRcode API (just png)
+router.get('/api/restaurant/:restaurantId/qrcode/download/', async (req, res) => {
+  const { restaurantId } = req.params; // Get restaurant ID from URL parameters
+  try {
+      const url = `http://localhost:${PORT}/restaurant/${restaurantId}/client_menu`;
+
+      let opts = {
+          errorCorrectionLevel: 'H',
+          margin: 2,
+          type: 'png', // Ensure format is PNG
+      };
+      
+      // Generate QR code as a buffer
+      const qrCodeBuffer = await QRCode.toBuffer(url, opts);
+      
+      // Set appropriate headers
+      res.setHeader('Content-Disposition', 'inline; filename="qrcode.png"');
+      res.setHeader('Content-Type', 'image/png');
+      
+      // Send the QR code buffer as the response
+      res.send(qrCodeBuffer);
+
+  } catch (error) {
+      console.error('Error generating QR code:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
   
 // Route to Get restaurant profile creation
 router.get("/create_restaurant_profile", (req, res) => {
