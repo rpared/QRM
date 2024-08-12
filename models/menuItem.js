@@ -1,6 +1,6 @@
 let mongoose = require("mongoose");
 
-let menu_itemSchema = mongoose.Schema({
+let menuItemSchema = mongoose.Schema({
   resta_profile_id: {
     type: String,
     required: true,
@@ -20,8 +20,24 @@ let menu_itemSchema = mongoose.Schema({
     required: true,
   },
   item_photo: {
-    type: String,
-    default: null,
+      data: {
+        type: Buffer,
+        default: null,
+      },
+      contentType: {
+        type: String,
+        default: null,
+      },
+  },
+  item_photo_thumbnail: {
+      data: {
+        type: Buffer,
+        default: null,
+      },
+      contentType: {
+        type: String,
+        default: null,
+      },
   },
   item_description: {
     type: String,
@@ -40,4 +56,4 @@ let menu_itemSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("MenuItem", menu_itemSchema);
+module.exports = mongoose.model("MenuItem", menuItemSchema);

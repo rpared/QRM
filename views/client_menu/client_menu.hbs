@@ -1,56 +1,120 @@
+<header class="header menu-header">
+    {{#if restaurant.resta_logo_thumbnail.data}}
+        <img src="/resta_logo/{{restaurant._id}}" alt="{{restaurant.resta_name}}" class="restaurant-logo">
+    {{/if}}
+     
+</header>
 
+<section class="restaurant-info">
+    <div class="collapsible-button">
+        <button class="collapsible-button basic-info-btn" type="button" data-toggle="collapse" data-target="#restaurantInfo" aria-expanded="false" aria-controls="restaurantInfo">
+            About Us ▼
+        </button>
+    </div>
+    <div id="restaurantInfo" class="collapsible-content collapse restaurant-info-content">
+        <strong> <em>{{restaurant.resta_description}}</em></strong><br>
+        <span><b>Location:</b> {{restaurant.resta_location}}</span>
+        <p><b>Hours:</b> {{restaurant.resta_hours}}</p>
+    </div>
+</section>
 
-   <header class="header">
-        <h1>{{restaurant.resta_name}}</h1>
-        {{#if restaurant.resta_logo}}
-        <img src="/uploads/{{restaurant.resta_logo}}" alt="{{restaurant.resta_name}}" class="restaurant-logo">
-        {{/if}}
-    </header>
-
-    <section class="restaurant-info">
-        <div class="collapsible-button">
-            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#restaurantInfo" aria-expanded="false" aria-controls="restaurantInfo">
-                Basic Information
-            </button>
-        </div>
-        <div id="restaurantInfo" class="collapsible-content collapse">
-            <p>{{restaurant.resta_description}}</p>
-            <p>Location: {{restaurant.resta_location}}</p>
-            <p>Hours: {{restaurant.resta_hours}}</p>
-        </div>
-    </section>
-
+{{!-- By default menu items are sorted by category --}}
+{{#if (eq restaurant.sortByCategory true)}}
+    <main>
+        {{#each groupedMenuItems}}
+            {{#if this.length}}
+            <div class="menu-items-heading" >
+                <h3>{{@key}}</h3>
+            </div>
+                <section class="menu-category">
+                    
+                    {{#each this}}
+                    <div class="menu-item">
+                        {{#if this.item_photo_thumbnail.data}}
+                            <img src="/menu_item_image/{{this._id}}" alt="{{this.item_name}}">
+                        {{/if}}
+                        <div class="menu-item-details">
+                            <h3 class="text-center">{{this.item_name}}</h3>
+                            <p>{{this.item_description}}</p>
+                            {{!-- <p><b>Category:</b> {{this.item_category}}</p> --}}
+                            <b><p class="price">Price: ${{this.item_price}}</p></b>
+                            <div class="food-labels">
+                                {{#each this.item_labels}}
+                                    <span class="label-item">
+                                        <img class="label-icon" src="{{getLabelIcon this}}" alt="{{this}} label">
+                                        {{this}}
+                                    </span>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </section>
+            {{/if}}
+        {{/each}}
+    </main>
+{{else}}
+{{!-- If the category sorting is unchecked... --}}
     <main class="menu-items">
         {{#each menuItems}}
         <div class="menu-item">
-            <img src="/uploads/{{this.item_photo}}" alt="{{this.item_name}}">
+            {{!-- <img src="/uploads/{{this.item_photo}}" alt="{{this.item_name}}"> --}}
+            {{#if this.item_photo_thumbnail.data}}
+                    <img src="/menu_item_image/{{this._id}}" alt="{{this.item_name}}">
+                    {{/if}}
             <div class="menu-item-details">
-                <h3>{{this.item_name}}</h3>
+                <h3 class="text-center">{{this.item_name}}</h3>
                 <p>{{this.item_description}}</p>
-                <p>Price: ${{this.item_price}}</p>
-                <p>Category: {{this.item_category}}</p>
-                <p>Labels: {{#each this.item_labels}} {{this}} {{/each}}</p>
+                {{!-- <p><b>Category:</b> {{this.item_category}}</p> --}}
+                <b><p class="price">Price: ${{this.item_price}}</p></b>
+                
+                <div class="food-labels"> 
+                    {{#each this.item_labels}}
+                        <span class="label-item">
+                            <img class="label-icon" src="{{getLabelIcon this}}" alt="{{this}} label" >
+                            {{this}}
+                        </span>
+                    {{/each}}
+                </div>
             </div>
         </div>
         {{/each}}
     </main>
+{{/if}}
 
-    <div class="contact-info">
-        <p>Email: {{restaurant.resta_email}}</p>
-        <p>Phone: {{restaurant.resta_phone}}</p>
-    </div>
+<div class="contact-info">
+    <span><b>Email:</b> {{restaurant.resta_email}}</span><br>
+    <span><b>Phone:</b> {{restaurant.resta_phone}}</span>
+</div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let infoContent = document.querySelector(".collapsible-content");
+        let infoBtn = document.querySelector(".collapsible-button");
 
-        <script>
-            let infoContent = document.querySelector(".collapsible-content");
-            let infoBtn = document.querySelector(".collapsible-button");
-
-            infoBtn.addEventListener("click", function() {
+        infoBtn.addEventListener("click", function() {
             if (infoContent.style.display === "block") {
-                infoContent.style.display = "none"; // Hide the content if it's already visible
+                infoContent.style.display = "none";
             } else {
-                infoContent.style.display = "block"; // Show the content if it's hidden
+                infoContent.style.display = "block";
             }
-});
+        });
 
-        </script>
+        const toggleButton = document.getElementById('togglePhotos');
+        let displayPhotos = true; // Default to displaying photos
+
+        toggleButton.addEventListener('click', () => {
+            displayPhotos = !displayPhotos; // Toggle the state
+
+            // Update the button text based on the current state
+            toggleButton.textContent = displayPhotos ? 'Display without Photos' : 'Display with Photos';
+
+            // Select all images and toggle their visibility
+            document.querySelectorAll('.menu-item img').forEach(img => {
+                img.classList.toggle('hide', !displayPhotos);
+            });
+        });
+    });
+
+    
+</script>

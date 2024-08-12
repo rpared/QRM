@@ -28,10 +28,17 @@
         </div>
     </nav>
     
-    <!-- JavaScript script to fetch user data and manage authentication -->
+    <!-- JavaScript script to fetch user data and manage authentication 
+    Need a better solution -->
     
+      {{!-- const userSession = {{userSession}}? 'Logged in':  'Not logged in ';
+  console.log(userSession);
+    if (userSession == 'Logged in' ){ --}}
+
 <script>
-  const userSession = {{userSession}};
+
+
+    const userSession = {{userSession}};
   console.log(userSession);
     if (userSession){
     document.addEventListener("DOMContentLoaded", () => {
@@ -44,6 +51,7 @@
         const priceButton = document.getElementById("priceButton");
         const logo = document.getElementById("logo");
         const navbar = document.querySelector(".navbar");
+        const heroSection = document.querySelector(".hero-section");
 
         authButton.textContent = "Logout";
               authButton.addEventListener("click", function () {
@@ -59,61 +67,10 @@
               priceButton.style.display = "none";
               logo.href ="/user_dashboard"
               navbar.classList.add('fixed-top');
+              if(heroSection){
+              heroSection.style.marginTop = "70px";}
 
     });
- }
+    }
 </script>
 
-
-
-
-<!-- Unneeded lenghty script
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-         // Authentication button functionality
-        const authButton = document.getElementById("authButton");
-        const userWelcome = document.getElementById("userWelcome");
-        const registerButton = document.getElementById("registerButton");
-        const aboutButton = document.getElementById("aboutButton");
-        const priceButton = document.getElementById("priceButton");
-        const logo = document.getElementById("logo");
-    
-
-        fetch("/check-login")
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.isLoggedIn) {
-              authButton.textContent = "Logout";
-              authButton.addEventListener("click", function () {
-                fetch("/logout", {
-                  method: "POST",
-                })
-                  .then((response) => response.json())
-                  .then((data) => {
-                    if (data.message) {
-                      alert(data.message);
-                      window.location.href = "/"; // Redirect to home after logout
-                    } else {
-                      alert("Error logging out");
-                    }
-                  })
-                  .catch((err) => console.error(err));
-              });
-              //userWelcome.textContent = `Hello, ${data.user.first_name}!`; // Display user welcome message not implemented
-              userWelcome.textContent = `Hello, user!`;
-              userWelcome.style.display = "inline-block"; // Show the welcome message
-              registerButton.style.display = "none";
-              aboutButton.style.display = "none";
-              priceButton.style.display = "none";
-              logo.href ="/user_dashboard"
-            } else {
-              authButton.textContent = "Login";
-              authButton.addEventListener("click", function () {
-                window.location.href = "/login"; // Redirect to login page
-              });
-            }
-          })
-          .catch((err) => console.error(err));
-    });
-</script>
--->
