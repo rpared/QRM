@@ -6,23 +6,6 @@
     margin: 0 18px 26px;
 }
 
-@media (max-width: 1200px) {
-    .menu-category, .menu-items {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns for large screens */
-    }
-}
-
-@media (max-width: 900px) {
-    .menu-category, .menu-items {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
-    }
-}
-
-@media (max-width: 600px) {
-    .menu-category, .menu-items {
-        grid-template-columns: 1fr; /* 1 column for small screens */
-    }
-}
 
 .menu-items-heading{
     display: flex;
@@ -93,15 +76,45 @@ body {
     text-align: center;
     /* margin-bottom: 20px; */
     background-color: #e6e6e6;
-    padding-bottom: 15px;
+    padding: 15px 0;
 }
 .header img{
     max-height: 200px;
 }
 .resta-name{
-    background-color: #535353;
     color: #fff;
+    font-size: 18pt;
+    margin-bottom: 0;
 }
+
+/* NAV bar */
+.navbar-dark{
+    background-color: #535353 !important;
+    /* height: 56px; */
+}
+
+.navbar {
+    padding: 0.25rem 1rem; /* Adjust as needed */
+}
+
+/* Adjust the size of navbar toggler icon */
+.navbar-toggler {
+    padding: 0.15rem 0.5rem; /* Adjust as needed */
+}
+
+/* Reduce the padding and margin of navbar items */
+.navbar-nav .nav-item {
+    padding: 0.2rem 0.5rem; /* Adjust as needed */
+}
+
+@media (min-width: 1200px) {
+    .navbar-expand-lg .navbar-toggler {
+        display: none !important;
+    }
+}
+
+
+
 .restaurant-info {
     text-align: center;
     margin-bottom: 20px;
@@ -128,9 +141,7 @@ body {
 .basic-info-btn{
     /* border-radius: 5px; */
     font-size: 14pt;
-    font-weight: bold;
-    /* border-top-left-radius: 5px;
-    border-top-right-radius: 5px; */
+    /* font-weight: bold; */
     display: block;
     width: 100%;
     background-color: #535353;
@@ -181,3 +192,60 @@ footer{
     margin-right: 5px;
     object-fit: cover; /* Ensure image fits within the specified dimensions */
 }
+
+/* Hide images when displayPhotos is false */
+.menu-item img.hide {
+    display: none;
+}
+
+/* Button styling */
+#togglePhotos {
+    display: block;
+    margin: 10px auto;
+}
+
+@media (max-width: 1200px) {
+    .menu-category, .menu-items {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for large screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .menu-category, .menu-items {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
+    }
+}
+@media (max-width: 550px) {
+    .menu-item-details h3{
+        font-size: 14pt;
+    }
+    .menu-item img{
+        height: 100px;
+    }
+    .menu-item .label-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 2px;
+        object-fit: cover; /* Ensure image fits within the specified dimensions */
+    }
+    .menu-item p {
+        font-size: 11pt;
+    }
+    .menu-item {
+        font-size: 11pt;
+    }
+    .menu-category, .menu-items {
+        gap: 8px;
+        margin: 0 10px 26px;
+    }
+}
+
+@media (max-width: 400px) {
+    .menu-category, .menu-items {
+        grid-template-columns: 1fr; /* 1 column for small screens */
+    }
+    .menu-item img{
+        height: 140px;
+    }
+}
+
