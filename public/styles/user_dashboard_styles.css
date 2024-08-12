@@ -4,7 +4,7 @@
     height: 100%;
     width: 200px;
     position: fixed;
-    top: 76px;
+    top: 65px;
     left: 0;
     background-color: #6e6e6e;
     padding-top: 20px;
@@ -53,9 +53,9 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    margin: 0 5px 5px;
+    margin: 5px 5px;
     border: 0.2px solid #ccc ;
-    /* min-width: 40%; */
+    min-width: 350px;
     flex: 0 0 47.6%; 
 }
 .resta-container p{
@@ -107,6 +107,15 @@
     max-width: 160px;
   }
 
+  .menu-items a{
+    color: #333;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .menu-items a:hover{
+    color: #0056b3;
+  }
+
   /* QR Download Pop Up */
   #qrFormatContainer {
     display: none; /* Initially hidden */
@@ -155,10 +164,12 @@
     color: #333; 
 
 }
-#closeBtn:hover {
+#closeBtn:hover, #closeBtn:active, #closeBtn:focus  {
     color: #ee5d3d;
+    border: none;
 }
-  
+
+ 
   @media (max-width: 550px) {
     .sidebar {
         position: relative;

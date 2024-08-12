@@ -15,13 +15,13 @@
                     <option value="specials" {{#if (eq menuItem.item_category "specials")}}selected{{/if}}>Specials</option>
                     <option value="breakfast" {{#if (eq menuItem.item_category "breakfast")}}selected{{/if}}>Breakfast</option>
                     <option value="brunch" {{#if (eq menuItem.item_category "brunch")}}selected{{/if}}>Brunch</option>
-                    <option value="main" {{#if (eq menuItem.item_category "main")}}selected{{/if}}>Main</option>
                     <option value="entrees" {{#if (eq menuItem.item_category "entrees")}}selected{{/if}}>Entrees</option>
+                    <option value="main" {{#if (eq menuItem.item_category "main")}}selected{{/if}}>Main</option>
                     <option value="beverages" {{#if (eq menuItem.item_category "beverages")}}selected{{/if}}>Beverages</option>
                     <option value="desserts" {{#if (eq menuItem.item_category "desserts")}}selected{{/if}}>Desserts</option>
                     <option value="hot-beverages" {{#if (eq menuItem.item_category "hot-beverages")}}selected{{/if}}>Hot Beverages</option>
                 </select>
-                <span>If you don't classify your item, it will be displayed at the top of the menu sorted by input order. Perhaps select "Specials" if you are unsure.</span>
+                <span>Select "Specials" if you are unsure. Items will be ordered by Category with "Specials" on top.</span>
                 <div class="invalid-feedback" id="itemCategoryError"></div>
             </div>
 
