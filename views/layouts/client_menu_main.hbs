@@ -18,11 +18,17 @@
     .menu-item{
       background-color: {{restaurant.itemBackgroundColor}};
     }
+      /* Custom media query for navbar to be responsive below 400px */ 
+      @media (max-width: 400px) {
+      .navbar-toggler { display: block; } .navbar-collapse { display: none; }
+      .navbar-collapse.show { display: block; } }
+
+
     </style>
 
 </head>
  <body>
-
+  {{> nav_client_menu}}
     
     {{{body}}}
 

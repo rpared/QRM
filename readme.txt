@@ -4,12 +4,12 @@ Allows restaurants to have online menus and edit them on the fly, and no need fo
 The QR code can be handed to their customers.
 
 Middleware and libraries:
-    - multer
     - express-validator
     - session-validator
     - mongoose
     - mongostore
     - bcrypt
+    - multer
     - sharp
     - qrcode
     - bootstrap
@@ -69,6 +69,7 @@ views:
         - client_menu.hbs
     - partials:
         - navbar.hbs
+        - nav_client_menu.hbs
     - client_menu:
         - client_menu.hbs
     - about.hbs
@@ -88,6 +89,7 @@ views:
 public:
     - images
     - styles
+    - scripts
 
 helpers
     - handlebars-helpers.js
