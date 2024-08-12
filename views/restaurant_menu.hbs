@@ -60,6 +60,7 @@
                     {{/each}}
                 </div>
         </div>
+        {{!-- If mennu is to be displayed with only names --}}
         <div id="menuItemsNames">
                 <div class="menu-items">
                     {{#each menuItems}}
@@ -71,7 +72,7 @@
                             <td>${{this.item_price}}</td>
                         </table> --}}
                         <div>
-                            <p><b>{{this.item_name}}</b> <br>
+                            <p><a href="/restaurant/{{../restaurant._id}}/menu/{{this._id}}/edit"><b>{{this.item_name}}</b></a> <br>
                             ${{this.item_price}}</p>
                         </div>
                             
@@ -120,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             menuItemsNames.style.display = 'block';
             menuItemsContainer.style.display = 'none';
-            toggleButton.textContent = 'Show/Edit Menu Details';
+            toggleButton.textContent = 'Show Menu Details';
         }
     });
 });

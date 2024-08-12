@@ -107,6 +107,15 @@
     max-width: 160px;
   }
 
+  .menu-items a{
+    color: #333;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .menu-items a:hover{
+    color: #0056b3;
+  }
+
   /* QR Download Pop Up */
   #qrFormatContainer {
     display: none; /* Initially hidden */
@@ -159,7 +168,8 @@
     color: #ee5d3d;
     border: none;
 }
-  
+
+ 
   @media (max-width: 550px) {
     .sidebar {
         position: relative;
