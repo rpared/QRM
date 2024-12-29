@@ -51,16 +51,12 @@ app.use(
 // Mongoose config
 const uri = process.env.DB_HOST;
 
-mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(uri)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error("DB Error:", err));
 
 let db = mongoose.connection;
 
-db.once("open", () => {
-  console.log("Connected to MongoDB");
-});
 db.on("error", (err) => {
   console.log("DB Error:" + err);
 });
