@@ -49,7 +49,13 @@ app.use(
 );
 
 // Mongoose config
-mongoose.connect(process.env.DB_HOST);
+const uri = process.env.DB_HOST;
+
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+
 let db = mongoose.connection;
 
 db.once("open", () => {
