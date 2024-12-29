@@ -22,9 +22,16 @@
 
 
     <footer class="py-3">
-      <span>Ⓒ QRMenu 2024</span>
+      <p>&copy; Roger Paredes <span id="footer-year">2024</span></p>
     </footer>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var yearElement = document.getElementById('footer-year');
+        var currentYear = new Date().getFullYear();
+        yearElement.textContent = currentYear;
+      });
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
